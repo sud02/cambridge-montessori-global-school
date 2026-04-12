@@ -40,10 +40,10 @@ export default function Gallery() {
   }, []);
 
   return (
-    <section ref={sectionRef} style={styles.section}>
+    <section ref={sectionRef} className="gallery-section" style={styles.section}>
       <div className="reveal" style={styles.header}>
-        <span style={styles.tag}>📸 Glimpses</span>
-        <h2 style={styles.title}>Moments of Joy!</h2>
+        <span className="section-tag" style={styles.tag}>📸 Glimpses</span>
+        <h2 className="section-title" style={styles.title}>Moments of Joy!</h2>
       </div>
       <div style={styles.grid}>
         {PHOTOS.map((label) => <GalleryItem key={label} label={label} />)}
@@ -69,20 +69,20 @@ const styles = {
   },
   title: {
     fontFamily: "'Baloo 2', cursive",
-    fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+    fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
     fontWeight: 800,
     color: 'var(--dark-brown)',
     display: 'block',
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
     gap: '1.5rem',
     maxWidth: 1100,
     margin: '0 auto',
   },
   placeholder: {
-    height: 220,
+    height: 200,
     borderRadius: 24,
     display: 'flex',
     alignItems: 'center',

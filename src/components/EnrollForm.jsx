@@ -16,7 +16,7 @@ const INITIAL_FORM = {
   age: '',
   mobile: '',
   programs: [],
-  hasSiblings: null,   // null | 'yes' | 'no'
+  hasSiblings: null,
   siblingName: '',
   siblingAge: '',
 };
@@ -26,6 +26,7 @@ export default function EnrollForm({ onSubmitSuccess }) {
   const [form, setForm] = useState(INITIAL_FORM);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
+  const [focused, setFocused] = useState('');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -37,18 +38,16 @@ export default function EnrollForm({ onSubmitSuccess }) {
     return () => observer.disconnect();
   }, []);
 
-  // ── Handlers ───────────────────────────────────────────────────────
   const handleInput = (field) => (e) =>
     setForm((f) => ({ ...f, [field]: e.target.value }));
 
-  const toggleProgram = (value) => {
+  const toggleProgram = (value) =>
     setForm((f) => ({
       ...f,
       programs: f.programs.includes(value)
         ? f.programs.filter((v) => v !== value)
         : [...f.programs, value],
     }));
-  };
 
   const selectSibling = (choice) =>
     setForm((f) => ({
@@ -58,19 +57,17 @@ export default function EnrollForm({ onSubmitSuccess }) {
       siblingAge:  choice === 'no' ? '' : f.siblingAge,
     }));
 
-  // ── Validation ─────────────────────────────────────────────────────
   const validate = () => {
     const e = {};
-    if (!form.childName.trim())    e.childName  = 'Child\'s name is required';
-    if (!form.parentName.trim())   e.parentName = 'Parent\'s name is required';
-    if (!form.age)                 e.age        = 'Age is required';
-    if (!form.mobile.trim())       e.mobile     = 'Mobile number is required';
-    if (form.programs.length === 0) e.programs  = 'Please select at least one program';
-    if (form.hasSiblings === null) e.hasSiblings = 'Please select an option';
+    if (!form.childName.trim())     e.childName   = "Child's name is required";
+    if (!form.parentName.trim())    e.parentName  = "Parent's name is required";
+    if (!form.age)                  e.age         = 'Age is required';
+    if (!form.mobile.trim())        e.mobile      = 'Mobile number is required';
+    if (form.programs.length === 0) e.programs    = 'Please select at least one program';
+    if (form.hasSiblings === null)  e.hasSiblings = 'Please select an option';
     return e;
   };
 
-  // ── Submit ─────────────────────────────────────────────────────────
   const handleSubmit = (e) => {
     e.preventDefault();
     const errs = validate();
@@ -89,15 +86,8 @@ export default function EnrollForm({ onSubmitSuccess }) {
 
     setSubmitted(true);
     onSubmitSuccess();
-
-    setTimeout(() => {
-      setSubmitted(false);
-      setForm(INITIAL_FORM);
-    }, 3000);
+    setTimeout(() => { setSubmitted(false); setForm(INITIAL_FORM); }, 3000);
   };
-
-  // ── Focus / blur for input glow ────────────────────────────────────
-  const [focused, setFocused] = useState('');
 
   const inputStyle = (name) => ({
     ...styles.input,
@@ -107,18 +97,18 @@ export default function EnrollForm({ onSubmitSuccess }) {
   });
 
   return (
-    <section ref={sectionRef} id="enroll" style={styles.section}>
-      <div className="reveal" style={styles.container}>
-        {/* Decorative circle */}
+    <section ref={sectionRef} id="enroll" className="form-section" style={styles.section}>
+      <div className="reveal form-container" style={styles.container}>
         <div style={styles.decorCircle} />
 
         <div style={styles.formHeader}>
-          <h2 style={styles.formTitle}>📝 Enroll Your Child</h2>
-          <p style={styles.formSubtitle}>Fill in the details below to confirm registration</p>
+          <h2 className="form-title" style={styles.formTitle}>📝 Enroll Your Child</h2>
+          <p className="form-subtitle" style={styles.formSubtitle}>
+            Fill in the details below to confirm registration
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} noValidate>
-          {/* Child Name */}
           <FormGroup label="Child's Name" required error={errors.childName}>
             <input
               type="text"
@@ -127,11 +117,11 @@ export default function EnrollForm({ onSubmitSuccess }) {
               onChange={handleInput('childName')}
               onFocus={() => setFocused('childName')}
               onBlur={() => setFocused('')}
+              className="form-input"
               style={inputStyle('childName')}
             />
           </FormGroup>
 
-          {/* Parent Name */}
           <FormGroup label="Parent's Name" required error={errors.parentName}>
             <input
               type="text"
@@ -140,26 +130,25 @@ export default function EnrollForm({ onSubmitSuccess }) {
               onChange={handleInput('parentName')}
               onFocus={() => setFocused('parentName')}
               onBlur={() => setFocused('')}
+              className="form-input"
               style={inputStyle('parentName')}
             />
           </FormGroup>
 
-          {/* Age */}
           <FormGroup label="Age of the Child" required error={errors.age}>
             <input
               type="number"
               placeholder="e.g. 8"
-              min={3}
-              max={18}
+              min={3} max={18}
               value={form.age}
               onChange={handleInput('age')}
               onFocus={() => setFocused('age')}
               onBlur={() => setFocused('')}
+              className="form-input"
               style={inputStyle('age')}
             />
           </FormGroup>
 
-          {/* Mobile */}
           <FormGroup label="Mobile No" required error={errors.mobile}>
             <input
               type="tel"
@@ -168,13 +157,13 @@ export default function EnrollForm({ onSubmitSuccess }) {
               onChange={handleInput('mobile')}
               onFocus={() => setFocused('mobile')}
               onBlur={() => setFocused('')}
+              className="form-input"
               style={inputStyle('mobile')}
             />
           </FormGroup>
 
-          {/* Programs */}
           <FormGroup label="Programs Interested 🎯" required error={errors.programs}>
-            <div style={styles.checkboxGrid}>
+            <div className="checkbox-grid" style={styles.checkboxGrid}>
               {PROGRAMS.map((p) => {
                 const checked = form.programs.includes(p.value);
                 return (
@@ -184,24 +173,23 @@ export default function EnrollForm({ onSubmitSuccess }) {
                     style={{
                       ...styles.checkItem,
                       borderColor: checked ? 'var(--grass-green)' : '#E8E0D8',
-                      background: checked ? '#E8F5E9' : '#FAFAFA',
+                      background:  checked ? '#E8F5E9' : '#FAFAFA',
                     }}
                   >
                     <div style={{
                       ...styles.customCheck,
-                      background: checked ? 'var(--grass-green)' : 'white',
+                      background:  checked ? 'var(--grass-green)' : 'white',
                       borderColor: checked ? 'var(--grass-green)' : '#ccc',
                     }}>
                       {checked && <span style={styles.checkMark}>✓</span>}
                     </div>
-                    <span style={styles.checkLabel}>{p.label}</span>
+                    <span className="form-label" style={styles.checkLabel}>{p.label}</span>
                   </div>
                 );
               })}
             </div>
           </FormGroup>
 
-          {/* Siblings */}
           <FormGroup label="Siblings" required error={errors.hasSiblings}>
             <div style={styles.radioGroup}>
               {['yes', 'no'].map((val) => {
@@ -213,7 +201,7 @@ export default function EnrollForm({ onSubmitSuccess }) {
                     style={{
                       ...styles.radioItem,
                       borderColor: selected ? 'var(--purple-pop)' : '#E8E0D8',
-                      background: selected ? '#F3E5F5' : '#FAFAFA',
+                      background:  selected ? '#F3E5F5' : '#FAFAFA',
                     }}
                   >
                     <div style={{
@@ -228,10 +216,9 @@ export default function EnrollForm({ onSubmitSuccess }) {
               })}
             </div>
 
-            {/* Sibling conditional fields */}
             {form.hasSiblings === 'yes' && (
               <div style={styles.siblingBox}>
-                <div style={styles.siblingGrid}>
+                <div className="sibling-grid" style={styles.siblingGrid}>
                   <div>
                     <label style={styles.subLabel}>Sibling's Name</label>
                     <input
@@ -241,6 +228,7 @@ export default function EnrollForm({ onSubmitSuccess }) {
                       onChange={handleInput('siblingName')}
                       onFocus={() => setFocused('siblingName')}
                       onBlur={() => setFocused('')}
+                      className="form-input"
                       style={inputStyle('siblingName')}
                     />
                   </div>
@@ -249,12 +237,12 @@ export default function EnrollForm({ onSubmitSuccess }) {
                     <input
                       type="number"
                       placeholder="Age"
-                      min={1}
-                      max={18}
+                      min={1} max={18}
                       value={form.siblingAge}
                       onChange={handleInput('siblingAge')}
                       onFocus={() => setFocused('siblingAge')}
                       onBlur={() => setFocused('')}
+                      className="form-input"
                       style={inputStyle('siblingAge')}
                     />
                   </div>
@@ -263,10 +251,10 @@ export default function EnrollForm({ onSubmitSuccess }) {
             )}
           </FormGroup>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={submitted}
+            className="submit-btn"
             style={{
               ...styles.submitBtn,
               background: submitted
@@ -296,7 +284,7 @@ export default function EnrollForm({ onSubmitSuccess }) {
 function FormGroup({ label, required, error, children }) {
   return (
     <div style={styles.formGroup}>
-      <label style={styles.label}>
+      <label className="form-label" style={styles.label}>
         {label}
         {required && <span style={{ color: 'var(--coral-orange)', marginLeft: 2 }}>*</span>}
       </label>
@@ -331,12 +319,7 @@ const styles = {
     opacity: 0.15,
     pointerEvents: 'none',
   },
-  formHeader: {
-    textAlign: 'center',
-    marginBottom: '2.5rem',
-    position: 'relative',
-    zIndex: 1,
-  },
+  formHeader: { textAlign: 'center', marginBottom: '2.5rem', position: 'relative', zIndex: 1 },
   formTitle: {
     fontFamily: "'Baloo 2', cursive",
     fontSize: '2rem',
@@ -402,7 +385,7 @@ const styles = {
   },
   checkMark: { color: 'white', fontWeight: 700, fontSize: '0.85rem' },
   checkLabel: { fontWeight: 500, fontSize: '0.95rem', color: 'var(--dark-brown)' },
-  radioGroup: { display: 'flex', gap: '1rem' },
+  radioGroup: { display: 'flex', gap: '1rem', flexWrap: 'wrap' },
   radioItem: {
     display: 'flex',
     alignItems: 'center',
@@ -423,11 +406,7 @@ const styles = {
     justifyContent: 'center',
     transition: 'all 0.3s ease',
   },
-  radioDot: {
-    width: 10, height: 10,
-    background: 'var(--purple-pop)',
-    borderRadius: '50%',
-  },
+  radioDot: { width: 10, height: 10, background: 'var(--purple-pop)', borderRadius: '50%' },
   radioLabel: { fontWeight: 500, fontSize: '1rem', color: 'var(--dark-brown)' },
   siblingBox: {
     marginTop: '1rem',
@@ -436,11 +415,7 @@ const styles = {
     borderRadius: 16,
     border: '2px dashed var(--sun-yellow)',
   },
-  siblingGrid: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '1rem',
-  },
+  siblingGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' },
   submitBtn: {
     width: '100%',
     padding: '1.1rem',
@@ -456,10 +431,5 @@ const styles = {
     position: 'relative',
     zIndex: 1,
   },
-  errorText: {
-    color: '#e53935',
-    fontSize: '0.82rem',
-    marginTop: '0.3rem',
-    fontWeight: 600,
-  },
+  errorText: { color: '#e53935', fontSize: '0.82rem', marginTop: '0.3rem', fontWeight: 600 },
 };

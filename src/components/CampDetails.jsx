@@ -20,15 +20,13 @@ export default function CampDetails() {
   }, []);
 
   return (
-    <section ref={sectionRef} style={styles.section}>
+    <section ref={sectionRef} className="info-section" style={styles.section}>
       <div className="reveal" style={styles.header}>
-        <span style={styles.tag}>📋 Quick Info</span>
-        <h2 style={styles.title}>Camp Details</h2>
+        <span className="section-tag" style={styles.tag}>📋 Quick Info</span>
+        <h2 className="section-title" style={styles.title}>Camp Details</h2>
       </div>
       <div style={styles.grid}>
-        {DETAILS.map((d) => (
-          <DetailCard key={d.label} detail={d} />
-        ))}
+        {DETAILS.map((d) => <DetailCard key={d.label} detail={d} />)}
       </div>
     </section>
   );
@@ -74,15 +72,15 @@ const styles = {
   },
   title: {
     fontFamily: "'Baloo 2', cursive",
-    fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+    fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
     fontWeight: 800,
     color: 'var(--dark-brown)',
     display: 'block',
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '2rem',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+    gap: '1.5rem',
     maxWidth: 1000,
     margin: '0 auto',
   },

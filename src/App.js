@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './styles/animations.css';
+import './styles/responsive.css';
 
 import Confetti     from './components/Confetti';
 import Marquee      from './components/Marquee';

@@ -1,0 +1,258 @@
+/* ── Global mobile base ──────────────────────────────────────── */
+html { font-size: 16px; }
+
+/* ── Marquee ─────────────────────────────────────────────────── */
+.marquee-item {
+  font-size: 1rem;
+  padding: 0 2rem;
+}
+
+/* ── Hero ────────────────────────────────────────────────────── */
+.hero-section {
+  padding: 3rem 1.25rem 2rem !important;
+}
+.hero-logo {
+  height: 90px;
+}
+.hero-badge {
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  padding: 0.5rem 1.5rem;
+}
+.hero-title {
+  font-size: clamp(1.75rem, 6vw, 4.5rem);
+  line-height: 1.2;
+}
+.hero-emoji-row {
+  font-size: 2rem;
+  letter-spacing: 0.25rem;
+}
+.hero-subtitle {
+  font-size: clamp(0.95rem, 2.5vw, 1.3rem);
+}
+.hero-pills-row {
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.hero-stat-pill {
+  font-size: 1rem;
+  padding: 0.6rem 1.5rem;
+}
+.hero-cta-btn {
+  font-size: 1.3rem;
+  padding: 1rem 2.5rem;
+}
+.hero-images-row {
+  gap: 1.5rem;
+}
+.hero-img-placeholder {
+  width: 140px;
+  height: 140px;
+}
+
+/* ── Section shared ──────────────────────────────────────────── */
+.section-tag {
+  font-size: 0.85rem;
+}
+.section-title {
+  font-size: clamp(1.5rem, 4vw, 2.8rem);
+}
+.programs-section,
+.why-section,
+.gallery-section,
+.info-section,
+.form-section {
+  padding: 4rem 2rem;
+}
+
+/* ── Program cards ───────────────────────────────────────────── */
+.program-card {
+  padding: 2rem;
+}
+.program-emoji {
+  font-size: 3.5rem;
+}
+.program-name {
+  font-size: 1.2rem;
+}
+.program-desc {
+  font-size: 0.9rem;
+}
+
+/* ── Why cards ───────────────────────────────────────────────── */
+.why-card-title { font-size: 1.1rem; }
+.why-card-desc  { font-size: 0.9rem; }
+
+/* ── Form ────────────────────────────────────────────────────── */
+.form-container {
+  padding: 3rem;
+  border-radius: 32px;
+}
+.form-title {
+  font-size: 2rem;
+}
+.form-subtitle {
+  font-size: 1rem;
+}
+.form-label {
+  font-size: 1rem;
+}
+.form-input {
+  font-size: 1rem;
+  padding: 0.9rem 1.2rem;
+}
+.checkbox-grid {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+.sibling-grid {
+  grid-template-columns: 1fr 1fr;
+}
+.submit-btn {
+  font-size: 1.2rem;
+  padding: 1.1rem;
+}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.footer-logo {
+  height: 64px;
+}
+.footer-main { font-size: 0.95rem; }
+.footer-sub  { font-size: 0.85rem; }
+.footer-copy { font-size: 0.78rem; }
+
+
+/* ════════════════════════════════════════════════════════════════
+   TABLET  ≤ 900px
+════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .hero-title {
+    font-size: clamp(1.6rem, 5.5vw, 3rem);
+  }
+  .hero-images-row {
+    gap: 1rem;
+  }
+  .hero-img-placeholder {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MOBILE  ≤ 600px
+════════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  /* Marquee */
+  .marquee-item {
+    font-size: 0.88rem;
+    padding: 0 1.2rem;
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: 2.5rem 1rem 1.5rem !important;
+    min-height: auto !important;
+  }
+  .hero-logo {
+    height: 68px;
+  }
+  .hero-badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 0.4rem 1rem;
+  }
+  .hero-title {
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
+    line-height: 1.25;
+  }
+  .hero-emoji-row {
+    font-size: 1.4rem;
+    letter-spacing: 0.1rem;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem !important;
+  }
+  .hero-pills-row {
+    gap: 0.5rem;
+  }
+  .hero-stat-pill {
+    font-size: 0.82rem;
+    padding: 0.45rem 0.9rem;
+  }
+  .hero-cta-btn {
+    font-size: 1.1rem;
+    padding: 0.85rem 2rem;
+    width: 100%;
+    display: block;
+  }
+  .hero-images-row {
+    gap: 0.75rem;
+  }
+  .hero-img-placeholder {
+    width: 85px;
+    height: 85px;
+  }
+
+  /* Sections */
+  .programs-section,
+  .why-section,
+  .gallery-section,
+  .info-section {
+    padding: 2.5rem 1rem;
+  }
+  .form-section {
+    padding: 2rem 0.75rem 3rem;
+  }
+  .section-tag  { font-size: 0.78rem; }
+  .section-title { font-size: clamp(1.35rem, 5vw, 2rem); }
+
+  /* Program cards */
+  .program-card {
+    padding: 1.25rem;
+  }
+  .program-emoji { font-size: 2.8rem; }
+  .program-name  { font-size: 1.05rem; }
+  .program-desc  { font-size: 0.85rem; }
+
+  /* Why cards */
+  .why-card-title { font-size: 1rem; }
+  .why-card-desc  { font-size: 0.85rem; }
+
+  /* Form */
+  .form-container {
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+  }
+  .form-title    { font-size: 1.5rem; }
+  .form-subtitle { font-size: 0.9rem; }
+  .form-label    { font-size: 0.95rem; }
+  .form-input    { font-size: 0.95rem; padding: 0.8rem 1rem; }
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+  .sibling-grid {
+    grid-template-columns: 1fr;
+  }
+  .submit-btn {
+    font-size: 1.05rem;
+    padding: 0.95rem;
+  }
+
+  /* Footer */
+  .footer-logo { height: 50px; }
+  .footer-main { font-size: 0.88rem; }
+  .footer-sub  { font-size: 0.78rem; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TINY  ≤ 380px
+════════════════════════════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .hero-title { font-size: 1.4rem; }
+  .hero-emoji-row { font-size: 1.2rem; }
+  .hero-img-placeholder {
+    width: 70px;
+    height: 70px;
+  }
+  .form-container { padding: 1.25rem 0.75rem; }
+}

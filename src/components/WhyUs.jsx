@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
 const CARDS = [
-  { emoji: '🏫', title: 'Safe Campus',     desc: 'Conducted within school premises for a secure environment.', bg: '#FFF3E0' },
-  { emoji: '👩‍🏫', title: 'Expert Trainers', desc: 'Learn from experienced and passionate instructors.',          bg: '#E8F5E9' },
-  { emoji: '🎉', title: 'Fun Learning',    desc: 'Activities designed to be engaging and joyful for kids.',    bg: '#E3F2FD' },
-  { emoji: '🌟', title: 'Build Confidence',desc: 'Help your child discover talents and grow self-esteem.',      bg: '#F3E5F5' },
+  { emoji: '🏫', title: 'Safe Campus',      desc: 'Conducted within school premises for a secure environment.', bg: '#FFF3E0' },
+  { emoji: '👩‍🏫', title: 'Expert Trainers',  desc: 'Learn from experienced and passionate instructors.',          bg: '#E8F5E9' },
+  { emoji: '🎉', title: 'Fun Learning',     desc: 'Activities designed to be engaging and joyful for kids.',    bg: '#E3F2FD' },
+  { emoji: '🌟', title: 'Build Confidence', desc: 'Help your child discover talents and grow self-esteem.',      bg: '#F3E5F5' },
 ];
 
 export default function WhyUs() {
@@ -21,15 +21,13 @@ export default function WhyUs() {
   }, []);
 
   return (
-    <section ref={sectionRef} style={styles.section}>
+    <section ref={sectionRef} className="why-section" style={styles.section}>
       <div className="reveal" style={styles.header}>
-        <span style={styles.tag}>💡 Why Join Us?</span>
-        <h2 style={styles.title}>Why Kids Love Our Camp!</h2>
+        <span className="section-tag" style={styles.tag}>💡 Why Join Us?</span>
+        <h2 className="section-title" style={styles.title}>Why Kids Love Our Camp!</h2>
       </div>
       <div style={styles.grid}>
-        {CARDS.map((card) => (
-          <WhyCard key={card.title} card={card} />
-        ))}
+        {CARDS.map((card) => <WhyCard key={card.title} card={card} />)}
       </div>
     </section>
   );
@@ -49,8 +47,8 @@ function WhyCard({ card }) {
       onMouseLeave={() => setHovered(false)}
     >
       <span style={styles.icon}>{card.emoji}</span>
-      <h3 style={styles.name}>{card.title}</h3>
-      <p style={styles.desc}>{card.desc}</p>
+      <h3 className="why-card-title" style={styles.name}>{card.title}</h3>
+      <p className="why-card-desc" style={styles.desc}>{card.desc}</p>
     </div>
   );
 }
@@ -72,14 +70,14 @@ const styles = {
   },
   title: {
     fontFamily: "'Baloo 2', cursive",
-    fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+    fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
     fontWeight: 800,
     color: 'var(--dark-brown)',
     display: 'block',
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
     gap: '1.5rem',
     maxWidth: 1100,
     margin: '0 auto',

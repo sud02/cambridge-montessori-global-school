@@ -15,7 +15,7 @@ function ProgramCard({ program, index }) {
 
   return (
     <div
-      className="reveal"
+      className="program-card reveal"
       style={{
         ...styles.card,
         borderColor: hovered ? program.color : 'transparent',
@@ -26,18 +26,17 @@ function ProgramCard({ program, index }) {
       onMouseLeave={() => setHovered(false)}
     >
       <div style={{ ...styles.topBorder, background: program.color }} />
-      {/* Image placeholder */}
       <div style={styles.imgPlaceholder}>
         <span style={styles.imgPlaceholderText}>📷 Add Image</span>
       </div>
-      <span style={{
+      <span className="program-emoji" style={{
         ...styles.emoji,
         animation: `bounce 2s ease infinite ${index * 0.3}s`,
       }}>
         {program.emoji}
       </span>
-      <h3 style={styles.name}>{program.name}</h3>
-      <p style={styles.desc}>{program.desc}</p>
+      <h3 className="program-name" style={styles.name}>{program.name}</h3>
+      <p className="program-desc" style={styles.desc}>{program.desc}</p>
     </div>
   );
 }
@@ -56,10 +55,10 @@ export default function Programs() {
   }, []);
 
   return (
-    <section ref={sectionRef} style={styles.section}>
+    <section ref={sectionRef} className="programs-section" style={styles.section}>
       <div className="reveal" style={styles.header}>
-        <span style={styles.tag}>🎯 Programs Offered</span>
-        <h2 style={styles.title}>Choose Your Adventure!</h2>
+        <span className="section-tag" style={styles.tag}>🎯 Programs Offered</span>
+        <h2 className="section-title" style={styles.title}>Choose Your Adventure!</h2>
       </div>
       <div style={styles.grid}>
         {PROGRAMS.map((p, i) => <ProgramCard key={p.name} program={p} index={i} />)}
@@ -74,10 +73,7 @@ const styles = {
     background: 'var(--soft-white)',
     position: 'relative',
   },
-  header: {
-    textAlign: 'center',
-    marginBottom: '3rem',
-  },
+  header: { textAlign: 'center', marginBottom: '3rem' },
   tag: {
     display: 'inline-block',
     background: 'var(--mint)',
@@ -92,14 +88,14 @@ const styles = {
   },
   title: {
     fontFamily: "'Baloo 2', cursive",
-    fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+    fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
     fontWeight: 800,
     color: 'var(--dark-brown)',
     display: 'block',
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
     gap: '1.5rem',
     maxWidth: 1200,
     margin: '0 auto',
@@ -123,7 +119,7 @@ const styles = {
   },
   imgPlaceholder: {
     width: '100%',
-    height: 140,
+    height: 130,
     background: 'linear-gradient(135deg, #f5f5f5, #e8e8e8)',
     borderRadius: 16,
     marginBottom: '1rem',
@@ -132,16 +128,8 @@ const styles = {
     justifyContent: 'center',
     border: '2px dashed #ddd',
   },
-  imgPlaceholderText: {
-    color: '#bbb',
-    fontSize: '0.85rem',
-    fontWeight: 600,
-  },
-  emoji: {
-    fontSize: '3.5rem',
-    marginBottom: '0.8rem',
-    display: 'block',
-  },
+  imgPlaceholderText: { color: '#bbb', fontSize: '0.85rem', fontWeight: 600 },
+  emoji: { fontSize: '3.5rem', marginBottom: '0.8rem', display: 'block' },
   name: {
     fontFamily: "'Fredoka', sans-serif",
     fontSize: '1.2rem',
@@ -149,9 +137,5 @@ const styles = {
     marginBottom: '0.5rem',
     color: 'var(--dark-brown)',
   },
-  desc: {
-    fontSize: '0.9rem',
-    color: '#8D6E63',
-    lineHeight: 1.5,
-  },
+  desc: { fontSize: '0.9rem', color: '#8D6E63', lineHeight: 1.5 },
 };

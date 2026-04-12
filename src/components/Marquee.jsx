@@ -9,14 +9,14 @@ const ITEMS = [
   '🌈 Enroll Now!',
 ];
 
-const allItems = [...ITEMS, ...ITEMS]; // duplicate for seamless loop
+const allItems = [...ITEMS, ...ITEMS];
 
 export default function Marquee() {
   return (
     <div style={styles.wrap}>
       <div style={styles.track}>
         {allItems.map((item, i) => (
-          <span key={i} style={styles.item}>{item}</span>
+          <span key={i} className="marquee-item" style={styles.item}>{item}</span>
         ))}
       </div>
     </div>

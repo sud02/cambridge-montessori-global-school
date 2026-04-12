@@ -10,12 +10,11 @@ const PHOTO_LABELS = ['Kid Photo 1', 'Kid Photo 2', 'Kid Photo 3'];
 
 export default function Hero() {
   const handleEnroll = () => {
-    const el = document.getElementById('enroll');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('enroll')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section style={styles.hero}>
+    <section className="hero-section" style={styles.hero}>
       {/* Shimmer overlay */}
       <div style={styles.shimmerOverlay} />
 
@@ -40,12 +39,15 @@ export default function Hero() {
         <img
           src="/img_src/CMG-LOGO-FINAL-png.png"
           alt="Cambridge Montessori Global School"
-          className="pop-in-0"
+          className="pop-in-0 hero-logo"
           style={styles.logoImg}
         />
-        <div className="pop-in-0" style={styles.badge}>☀️ SUMMER SKILL ENRICHMENT 2026</div>
 
-        <h1 className="pop-in-1" style={styles.title}>
+        <div className="pop-in-0 hero-badge" style={styles.badge}>
+          ☀️ SUMMER SKILL ENRICHMENT 2026
+        </div>
+
+        <h1 className="pop-in-1 hero-title" style={styles.title}>
           Give your child a summer full of{' '}
           <span style={styles.highlightWrap}>
             <span style={styles.highlightText}>Learning</span>
@@ -54,24 +56,27 @@ export default function Hero() {
           , Creativity &amp; Fun! 🌈
         </h1>
 
-        <div className="pop-in-2" style={styles.emojiRow}>
+        <div className="pop-in-2 hero-emoji-row" style={styles.emojiRow}>
           🎨 🧠 💃 ⚽ 🎶 📚 🧘
         </div>
 
-        <p className="pop-in-3" style={styles.subtitle}>
+        <p className="pop-in-3 hero-subtitle" style={styles.subtitle}>
           Our Summer Camp is designed to enhance skills, build confidence, and create
           joyful memories through engaging activities.
         </p>
 
-        <div className="pop-in-4" style={styles.pillsRow}>
+        <div className="pop-in-4 hero-pills-row" style={styles.pillsRow}>
           {STAT_PILLS.map((p) => (
-            <div key={p.text} style={styles.statPill}>
+            <div key={p.text} className="hero-stat-pill" style={styles.statPill}>
               {p.emoji} {p.text}
             </div>
           ))}
         </div>
 
-        <button className="pop-in-5" style={styles.ctaBtn} onClick={handleEnroll}
+        <button
+          className="pop-in-5 hero-cta-btn"
+          style={styles.ctaBtn}
+          onClick={handleEnroll}
           onMouseEnter={e => {
             e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
             e.currentTarget.style.boxShadow = '0 10px 35px rgba(255,107,53,0.5)';
@@ -84,9 +89,9 @@ export default function Hero() {
           Enroll Now ✨
         </button>
 
-        <div className="pop-in-6" style={styles.imagesRow}>
+        <div className="pop-in-6 hero-images-row" style={styles.imagesRow}>
           {PHOTO_LABELS.map((label) => (
-            <div key={label} style={styles.imgPlaceholder}>
+            <div key={label} className="hero-img-placeholder" style={styles.imgPlaceholder}>
               <span style={{ fontSize: '2rem' }}>👧</span>
               <span style={styles.imgLabel}>{label}</span>
             </div>
@@ -166,9 +171,9 @@ const styles = {
   },
   title: {
     fontFamily: "'Baloo 2', cursive",
-    fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+    fontSize: 'clamp(1.75rem, 6vw, 4.5rem)',
     fontWeight: 800,
-    lineHeight: 1.15,
+    lineHeight: 1.2,
     marginBottom: '1rem',
     color: 'var(--dark-brown)',
   },
@@ -196,7 +201,7 @@ const styles = {
     letterSpacing: '0.25rem',
   },
   subtitle: {
-    fontSize: 'clamp(1rem, 2.5vw, 1.3rem)',
+    fontSize: 'clamp(0.95rem, 2.5vw, 1.3rem)',
     maxWidth: 650,
     margin: '0 auto 2rem',
     lineHeight: 1.7,
