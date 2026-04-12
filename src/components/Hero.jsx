@@ -99,7 +99,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    padding: '2rem',
+    padding: '6rem 2rem 2rem',
     background: 'linear-gradient(135deg, var(--sun-yellow) 0%, var(--peach) 30%, var(--sky-blue) 70%, var(--mint) 100%)',
     overflow: 'hidden',
   },
