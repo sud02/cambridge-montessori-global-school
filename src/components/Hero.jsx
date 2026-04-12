@@ -210,10 +210,10 @@ const styles = {
   },
   pillsRow: {
     display: 'flex',
-    gap: '2rem',
+    gap: '0.75rem',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    marginBottom: '2rem',
+    marginBottom: '1.5rem',
   },
   statPill: {
     background: 'rgba(255,255,255,0.85)',

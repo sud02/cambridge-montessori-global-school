@@ -1,4 +1,4 @@
-/* ── Global mobile base ──────────────────────────────────────── */
+/* ── Global ───────────────────────────────────────────────────── */
 html { font-size: 16px; }
 
 /* ── Marquee ─────────────────────────────────────────────────── */
@@ -8,55 +8,40 @@ html { font-size: 16px; }
 }
 
 /* ── Hero ────────────────────────────────────────────────────── */
-.hero-section {
-  padding: 3rem 1.25rem 2rem !important;
-}
-.hero-logo {
-  height: 90px;
-}
-.hero-badge {
-  font-size: 0.95rem;
-  letter-spacing: 1px;
-  padding: 0.5rem 1.5rem;
-}
-.hero-title {
-  font-size: clamp(1.75rem, 6vw, 4.5rem);
-  line-height: 1.2;
-}
-.hero-emoji-row {
-  font-size: 2rem;
-  letter-spacing: 0.25rem;
-}
-.hero-subtitle {
-  font-size: clamp(0.95rem, 2.5vw, 1.3rem);
-}
+.hero-logo        { height: 90px; }
+.hero-emoji-row   { font-size: 2rem; letter-spacing: 0.25rem; }
+.hero-images-row  { gap: 1.5rem; }
+.hero-img-placeholder { width: 140px; height: 140px; }
+
+/* Pills row — override inline gap */
 .hero-pills-row {
-  gap: 2rem;
-  flex-wrap: wrap;
+  gap: 0.75rem !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  margin-bottom: 1.5rem !important;
 }
+
+/* Individual pill */
 .hero-stat-pill {
-  font-size: 1rem;
-  padding: 0.6rem 1.5rem;
+  font-size: 0.95rem !important;
+  padding: 0.5rem 1.1rem !important;
+  border-radius: 50px !important;
+  white-space: nowrap;
 }
+
+/* CTA button */
 .hero-cta-btn {
-  font-size: 1.3rem;
-  padding: 1rem 2.5rem;
-}
-.hero-images-row {
-  gap: 1.5rem;
-}
-.hero-img-placeholder {
-  width: 140px;
-  height: 140px;
+  font-size: 1.3rem !important;
+  padding: 1rem 2.5rem !important;
+  border-radius: 60px !important;
+  display: inline-block !important;
+  width: auto !important;
 }
 
 /* ── Section shared ──────────────────────────────────────────── */
-.section-tag {
-  font-size: 0.85rem;
-}
-.section-title {
-  font-size: clamp(1.5rem, 4vw, 2.8rem);
-}
+.section-tag   { font-size: 0.85rem; }
+.section-title { font-size: clamp(1.5rem, 4vw, 2.8rem); }
+
 .programs-section,
 .why-section,
 .gallery-section,
@@ -66,56 +51,27 @@ html { font-size: 16px; }
 }
 
 /* ── Program cards ───────────────────────────────────────────── */
-.program-card {
-  padding: 2rem;
-}
-.program-emoji {
-  font-size: 3.5rem;
-}
-.program-name {
-  font-size: 1.2rem;
-}
-.program-desc {
-  font-size: 0.9rem;
-}
+.program-card  { padding: 2rem; }
+.program-emoji { font-size: 3.5rem; }
+.program-name  { font-size: 1.2rem; }
+.program-desc  { font-size: 0.9rem; }
 
 /* ── Why cards ───────────────────────────────────────────────── */
 .why-card-title { font-size: 1.1rem; }
 .why-card-desc  { font-size: 0.9rem; }
 
 /* ── Form ────────────────────────────────────────────────────── */
-.form-container {
-  padding: 3rem;
-  border-radius: 32px;
-}
-.form-title {
-  font-size: 2rem;
-}
-.form-subtitle {
-  font-size: 1rem;
-}
-.form-label {
-  font-size: 1rem;
-}
-.form-input {
-  font-size: 1rem;
-  padding: 0.9rem 1.2rem;
-}
-.checkbox-grid {
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-}
-.sibling-grid {
-  grid-template-columns: 1fr 1fr;
-}
-.submit-btn {
-  font-size: 1.2rem;
-  padding: 1.1rem;
-}
+.form-container { padding: 3rem; border-radius: 32px; }
+.form-title     { font-size: 2rem; }
+.form-subtitle  { font-size: 1rem; }
+.form-label     { font-size: 1rem; }
+.form-input     { font-size: 1rem !important; padding: 0.9rem 1.2rem !important; }
+.checkbox-grid  { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.sibling-grid   { grid-template-columns: 1fr 1fr; }
+.submit-btn     { font-size: 1.2rem !important; padding: 1.1rem !important; }
 
 /* ── Footer ──────────────────────────────────────────────────── */
-.footer-logo {
-  height: 64px;
-}
+.footer-logo { height: 64px; }
 .footer-main { font-size: 0.95rem; }
 .footer-sub  { font-size: 0.85rem; }
 .footer-copy { font-size: 0.78rem; }
@@ -125,16 +81,8 @@ html { font-size: 16px; }
    TABLET  ≤ 900px
 ════════════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .hero-title {
-    font-size: clamp(1.6rem, 5.5vw, 3rem);
-  }
-  .hero-images-row {
-    gap: 1rem;
-  }
-  .hero-img-placeholder {
-    width: 110px;
-    height: 110px;
-  }
+  .hero-images-row      { gap: 1rem !important; }
+  .hero-img-placeholder { width: 110px !important; height: 110px !important; }
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -142,74 +90,69 @@ html { font-size: 16px; }
 ════════════════════════════════════════════════════════════════ */
 @media (max-width: 600px) {
   /* Marquee */
-  .marquee-item {
-    font-size: 0.88rem;
-    padding: 0 1.2rem;
-  }
+  .marquee-item { font-size: 0.85rem; padding: 0 1rem; }
 
   /* Hero */
   .hero-section {
-    padding: 2.5rem 1rem 1.5rem !important;
+    padding: 2rem 1rem 1.5rem !important;
     min-height: auto !important;
   }
-  .hero-logo {
-    height: 68px;
-  }
+  .hero-logo { height: 62px !important; }
+
   .hero-badge {
-    font-size: 0.75rem;
-    letter-spacing: 0.5px;
-    padding: 0.4rem 1rem;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.3px !important;
+    padding: 0.35rem 0.85rem !important;
   }
-  .hero-title {
-    font-size: clamp(1.5rem, 7vw, 2.2rem);
-    line-height: 1.25;
-  }
+
   .hero-emoji-row {
-    font-size: 1.4rem;
-    letter-spacing: 0.1rem;
+    font-size: 1.3rem !important;
+    letter-spacing: 0.08rem !important;
+    margin-bottom: 1rem !important;
   }
+
   .hero-subtitle {
-    font-size: 0.95rem;
+    font-size: 0.9rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Pills — compact row, all 3 visible */
+  .hero-pills-row {
+    gap: 0.4rem !important;
     margin-bottom: 1.25rem !important;
   }
-  .hero-pills-row {
-    gap: 0.5rem;
-  }
   .hero-stat-pill {
-    font-size: 0.82rem;
-    padding: 0.45rem 0.9rem;
+    font-size: 0.78rem !important;
+    padding: 0.35rem 0.75rem !important;
+    gap: 0.3rem !important;
   }
+
+  /* CTA — full width, bold tap target */
   .hero-cta-btn {
-    font-size: 1.1rem;
-    padding: 0.85rem 2rem;
-    width: 100%;
-    display: block;
+    display: block !important;
+    width: 100% !important;
+    font-size: 1.1rem !important;
+    padding: 0.95rem 1rem !important;
+    border-radius: 16px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
   }
-  .hero-images-row {
-    gap: 0.75rem;
-  }
-  .hero-img-placeholder {
-    width: 85px;
-    height: 85px;
-  }
+
+  .hero-images-row      { gap: 0.6rem !important; }
+  .hero-img-placeholder { width: 80px !important; height: 80px !important; }
 
   /* Sections */
   .programs-section,
   .why-section,
   .gallery-section,
-  .info-section {
-    padding: 2.5rem 1rem;
-  }
-  .form-section {
-    padding: 2rem 0.75rem 3rem;
-  }
-  .section-tag  { font-size: 0.78rem; }
-  .section-title { font-size: clamp(1.35rem, 5vw, 2rem); }
+  .info-section { padding: 2.5rem 1rem; }
+  .form-section { padding: 2rem 0.75rem 3rem; }
+
+  .section-tag   { font-size: 0.75rem; }
+  .section-title { font-size: clamp(1.3rem, 5vw, 1.9rem); }
 
   /* Program cards */
-  .program-card {
-    padding: 1.25rem;
-  }
+  .program-card  { padding: 1.25rem; }
   .program-emoji { font-size: 2.8rem; }
   .program-name  { font-size: 1.05rem; }
   .program-desc  { font-size: 0.85rem; }
@@ -219,40 +162,28 @@ html { font-size: 16px; }
   .why-card-desc  { font-size: 0.85rem; }
 
   /* Form */
-  .form-container {
-    padding: 1.5rem 1rem;
-    border-radius: 20px;
-  }
-  .form-title    { font-size: 1.5rem; }
-  .form-subtitle { font-size: 0.9rem; }
-  .form-label    { font-size: 0.95rem; }
-  .form-input    { font-size: 0.95rem; padding: 0.8rem 1rem; }
-  .checkbox-grid {
-    grid-template-columns: 1fr;
-  }
-  .sibling-grid {
-    grid-template-columns: 1fr;
-  }
-  .submit-btn {
-    font-size: 1.05rem;
-    padding: 0.95rem;
-  }
+  .form-container { padding: 1.5rem 1rem !important; border-radius: 20px !important; }
+  .form-title     { font-size: 1.4rem !important; }
+  .form-subtitle  { font-size: 0.88rem !important; }
+  .form-label     { font-size: 0.92rem !important; }
+  .form-input     { font-size: 0.95rem !important; padding: 0.75rem 0.9rem !important; }
+  .checkbox-grid  { grid-template-columns: 1fr !important; }
+  .sibling-grid   { grid-template-columns: 1fr !important; }
+  .submit-btn     { font-size: 1.05rem !important; padding: 0.9rem !important; }
 
   /* Footer */
-  .footer-logo { height: 50px; }
-  .footer-main { font-size: 0.88rem; }
-  .footer-sub  { font-size: 0.78rem; }
+  .footer-logo { height: 48px !important; }
+  .footer-main { font-size: 0.85rem; }
+  .footer-sub  { font-size: 0.75rem; }
 }
 
 /* ════════════════════════════════════════════════════════════════
    TINY  ≤ 380px
 ════════════════════════════════════════════════════════════════ */
 @media (max-width: 380px) {
-  .hero-title { font-size: 1.4rem; }
-  .hero-emoji-row { font-size: 1.2rem; }
-  .hero-img-placeholder {
-    width: 70px;
-    height: 70px;
-  }
-  .form-container { padding: 1.25rem 0.75rem; }
+  .hero-logo            { height: 52px !important; }
+  .hero-emoji-row       { font-size: 1.1rem !important; }
+  .hero-stat-pill       { font-size: 0.72rem !important; padding: 0.3rem 0.6rem !important; }
+  .hero-img-placeholder { width: 65px !important; height: 65px !important; }
+  .form-container       { padding: 1.1rem 0.75rem !important; }
 }
