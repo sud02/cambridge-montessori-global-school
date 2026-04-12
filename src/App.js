@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './styles/animations.css';
 
 import Confetti     from './components/Confetti';
-import Navbar       from './components/Navbar';
 import Marquee      from './components/Marquee';
 import Hero         from './components/Hero';
 import WaveSeparator from './components/WaveSeparator';
@@ -30,7 +29,6 @@ export default function App() {
 
       <Confetti trigger={confettiTrigger} />
 
-      <Navbar />
       <Marquee />
       <Hero />
       <WaveSeparator />

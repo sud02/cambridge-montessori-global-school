@@ -37,6 +37,12 @@ export default function Hero() {
 
       {/* Content */}
       <div style={styles.content}>
+        <img
+          src="/img_src/CMG-LOGO-FINAL-png.png"
+          alt="Cambridge Montessori Global School"
+          className="pop-in-0"
+          style={styles.logoImg}
+        />
         <div className="pop-in-0" style={styles.badge}>☀️ SUMMER SKILL ENRICHMENT 2026</div>
 
         <h1 className="pop-in-1" style={styles.title}>
@@ -99,7 +105,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    padding: '6rem 2rem 2rem',
+    padding: '3rem 2rem 2rem',
     background: 'linear-gradient(135deg, var(--sun-yellow) 0%, var(--peach) 30%, var(--sky-blue) 70%, var(--mint) 100%)',
     overflow: 'hidden',
   },
@@ -137,6 +143,13 @@ const styles = {
     zIndex: 2,
     maxWidth: 900,
     width: '100%',
+  },
+  logoImg: {
+    height: 90,
+    objectFit: 'contain',
+    display: 'block',
+    margin: '0 auto 1.5rem',
+    filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))',
   },
   badge: {
     display: 'inline-block',
