@@ -1,16 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 
 const PRE_PRIMARY = [
-  { emoji: '👧', label: 'L.K.G', color: '#fde68a' },
-  { emoji: '🧒', label: 'U.K.G', color: '#fecaca' },
+  { img: '/img_src/kid1_no_bg.png', label: 'L.K.G', color: '#fde68a', imgOriginY: '8%',  imgPosY: '4%' },
+  { img: '/img_src/kid3_no_bg.png', label: 'U.K.G', color: '#fecaca', imgOriginY: '14%', imgPosY: '8%' },
 ];
 
 const PRIMARY = [
-  { emoji: '👦', label: 'Class 1', color: '#bfdbfe' },
-  { emoji: '👧', label: 'Class 2', color: '#bbf7d0' },
-  { emoji: '🧒', label: 'Class 3', color: '#fde68a' },
-  { emoji: '👦', label: 'Class 4', color: '#c7d2fe' },
-  { emoji: '👧', label: 'Class 5', color: '#fbcfe8' },
+  { img: '/img_src/kid2_no_bg.png', label: 'Class 1', color: '#bfdbfe', imgOriginY: '14%', imgPosY: '8%' },
+  { img: '/img_src/kid4_no_bg.png', label: 'Class 2', color: '#bbf7d0', imgOriginY: '14%', imgPosY: '8%' },
+  { img: '/img_src/kid1_no_bg.png', label: 'Class 3', color: '#fde68a', imgOriginY: '8%',  imgPosY: '4%' },
+  { img: '/img_src/kid2_no_bg.png', label: 'Class 4', color: '#c7d2fe', imgOriginY: '14%', imgPosY: '8%' },
+  { img: '/img_src/kid3_no_bg.png', label: 'Class 5', color: '#fbcfe8', imgOriginY: '14%', imgPosY: '8%' },
 ];
 
 export default function Programs() {
@@ -54,7 +54,17 @@ function Group({ heading, headingColor, items }) {
         {items.map((it) => (
           <div key={it.label} className="class-card" style={styles.card}>
             <div style={{ ...styles.avatar, background: it.color }}>
-              <span style={styles.avatarEmoji}>{it.emoji}</span>
+              {it.img
+                ? <img
+                    src={it.img}
+                    alt={it.label}
+                    style={{
+                      ...styles.avatarImg,
+                      objectPosition: `50% ${it.imgPosY ?? '12%'}`,
+                      transformOrigin: `50% ${it.imgOriginY ?? '18%'}`,
+                    }}
+                  />
+                : <span style={styles.avatarEmoji}>{it.emoji}</span>}
             </div>
             <div style={styles.cardLabel}>{it.label}</div>
           </div>
@@ -135,16 +145,26 @@ const styles = {
     gap: '0.4rem',
   },
   avatar: {
-    width: 70,
-    height: 70,
+    width: 80,
+    height: 80,
     borderRadius: '50%',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
     border: '3px solid white',
     boxShadow: '0 6px 16px rgba(15,23,42,0.08)',
+    overflow: 'hidden',
   },
-  avatarEmoji: { fontSize: '2rem', lineHeight: 1 },
+  avatarEmoji: { fontSize: '2rem', lineHeight: 1, paddingBottom: 14 },
+  avatarImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: '50% 12%',
+    transform: 'scale(2.2)',
+    transformOrigin: '50% 18%',
+    display: 'block',
+  },
   cardLabel: {
     fontWeight: 600,
     fontSize: '0.9rem',

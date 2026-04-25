@@ -332,22 +332,22 @@ const styles = {
     marginTop: 4,
   },
   feeOnly: { fontSize: '0.95rem', fontWeight: 600, color: 'var(--muted)' },
-  qrSide: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 },
+  qrSide: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 },
   qrBox: {
-    width: 68, height: 68,
+    width: 96, height: 96,
     background: 'white',
     border: '1px solid var(--line)',
-    borderRadius: 8,
-    padding: 4,
+    borderRadius: 10,
+    padding: 6,
+    boxShadow: '0 4px 14px rgba(15,23,42,0.08)',
   },
-  qrPattern: {
-    width: '100%', height: '100%',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(6, 1fr)',
-    gap: 1,
+  qrImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',
+    display: 'block',
   },
-  qrDot: { width: '100%', height: '100%', borderRadius: 1 },
-  qrLabel: { fontSize: '0.72rem', color: 'var(--muted)', fontWeight: 600 },
+  qrLabel: { fontSize: '0.75rem', color: 'var(--muted)', fontWeight: 600 },
 
   agreeRow: {
     display: 'flex',
