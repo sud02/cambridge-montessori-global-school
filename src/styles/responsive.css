@@ -65,7 +65,7 @@ html { font-size: 16px; }
   .classes-divider { display: none !important; }
 
   /* Exam details stack */
-  .exam-grid { grid-template-columns: 1fr 1fr !important; }
+  .exam-grid { grid-template-columns: 1fr !important; }
 
   /* Syllabus */
   .syllabus-grid { grid-template-columns: 1fr !important; }
@@ -77,6 +77,11 @@ html { font-size: 16px; }
   /* Register form */
   .register-wrap { padding: 1.5rem 1.1rem !important; border-radius: 18px !important; }
   .form-row { grid-template-columns: 1fr !important; }
+  .form-field {
+    grid-template-columns: 1fr !important;
+    gap: 0.45rem !important;
+    padding: 0.6rem 0 0.85rem !important;
+  }
 
   /* Visit grid single column */
   .visit-grid { grid-template-columns: 1fr !important; }

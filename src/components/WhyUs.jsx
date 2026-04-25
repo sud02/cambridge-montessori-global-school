@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 const BENEFITS = [
   { icon: '🏆', tier: 'Top Performers',  percent: '50%', sub: 'Scholarship',             accent: 'var(--gold)',       bg: '#fef9c3' },
-  { icon: '🎖️', tier: 'Next Level',       percent: '25%', sub: 'Scholarship',             accent: 'var(--brand-blue)', bg: 'var(--brand-blue-soft)' },
+  { icon: '🎖️', tier: 'Next Level',       percent: '30%', sub: 'Scholarship',             accent: 'var(--brand-blue)', bg: 'var(--brand-blue-soft)' },
   { icon: '📜', tier: 'All Participants', percent: '100%', sub: 'Participation Certificate', accent: 'var(--success)',    bg: 'var(--success-soft)' },
 ];
 

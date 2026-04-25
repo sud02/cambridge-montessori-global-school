@@ -3,6 +3,7 @@ import './styles/animations.css';
 import './styles/responsive.css';
 
 import Confetti        from './components/Confetti';
+import SplashScreen    from './components/SplashScreen';
 import Navbar          from './components/Navbar';
 import Marquee         from './components/Marquee';
 import Hero            from './components/Hero';
@@ -19,6 +20,7 @@ export default function App() {
 
   return (
     <>
+      <SplashScreen />
       <Confetti trigger={confettiTrigger} />
       <Navbar />
       <Marquee />

@@ -119,6 +119,11 @@ export default function Hero() {
             <div style={styles.mSubLine}>Scholarship Exam 2026</div>
             <div style={styles.mOfflinePill}>Offline Exam at School Campus</div>
           </div>
+          <img
+            src="/img_src/hero1.png"
+            alt="Happy students in uniform"
+            style={styles.mBannerArt}
+          />
         </div>
 
         {/* Feature pill cards */}
@@ -337,11 +342,8 @@ const styles = {
     position: 'relative',
     background: 'linear-gradient(135deg, #0f2557 0%, #1e3a8a 60%, #1d4ed8 100%)',
     borderRadius: 18,
-    padding: '1.1rem 1rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: '0.6rem',
+    padding: '1.25rem 1.1rem',
+    minHeight: 180,
     overflow: 'hidden',
     color: 'white',
     boxShadow: '0 16px 40px rgba(15,37,87,0.35)',
@@ -360,8 +362,8 @@ const styles = {
   },
   mBannerText: {
     position: 'relative',
-    flex: 1,
-    minWidth: 0,
+    paddingRight: 150,
+    zIndex: 2,
   },
   mSmallLine: {
     fontSize: '0.82rem',
@@ -388,12 +390,24 @@ const styles = {
     display: 'inline-block',
     background: 'var(--brand-red)',
     color: 'white',
-    fontSize: '0.72rem',
+    fontSize: '0.7rem',
     fontWeight: 700,
-    padding: '0.35rem 0.7rem',
+    padding: '0.4rem 0.85rem',
     borderRadius: 999,
     letterSpacing: '0.3px',
+    whiteSpace: 'nowrap',
     boxShadow: '0 6px 14px rgba(220,38,38,0.35)',
+  },
+  mBannerArt: {
+    position: 'absolute',
+    right: -53,
+    bottom: -35,
+    width: 287,
+    height: '100%',
+    objectFit: 'contain',
+    objectPosition: 'right bottom',
+    pointerEvents: 'none',
+    filter: 'drop-shadow(0 10px 22px rgba(0,0,0,0.32))',
   },
   mFeatureRow: {
     display: 'grid',

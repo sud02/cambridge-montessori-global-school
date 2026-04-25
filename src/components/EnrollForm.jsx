@@ -71,99 +71,92 @@ export default function EnrollForm({ onSubmitSuccess }) {
     <section ref={sectionRef} id="register" className="section register-section" style={styles.section}>
       <div className="reveal register-wrap" style={styles.wrap}>
         <div style={styles.header}>
-          <span className="section-tag" style={styles.tag}>📝 Register for Scholarship Exam</span>
-          <h2 className="section-title" style={styles.title}>Register Your Child</h2>
+          <h2 className="section-title" style={styles.title}>Register for Scholarship Exam</h2>
           <p style={styles.subtitle}>
-            Fill in the details to register for Scholarship Exam 2026.
+            Fill in the details below to register your child.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} noValidate className="register-form" style={styles.form}>
-          <div className="form-row" style={styles.row}>
-            <Field label="Student Name" icon="👤" required error={errors.studentName}>
-              <input
-                type="text"
-                placeholder="Enter student name"
-                value={form.studentName}
-                onChange={handleInput('studentName')}
-                onFocus={() => setFocused('studentName')}
-                onBlur={() => setFocused('')}
-                className="form-input"
-                style={inputStyle('studentName')}
-              />
-            </Field>
+          <Field label="Student Name" Icon={IconUser} required error={errors.studentName}>
+            <input
+              type="text"
+              placeholder="Enter student name"
+              value={form.studentName}
+              onChange={handleInput('studentName')}
+              onFocus={() => setFocused('studentName')}
+              onBlur={() => setFocused('')}
+              className="form-input"
+              style={inputStyle('studentName')}
+            />
+          </Field>
 
-            <Field label="Parent Name" icon="👨‍👩‍👧" required error={errors.parentName}>
-              <input
-                type="text"
-                placeholder="Enter parent name"
-                value={form.parentName}
-                onChange={handleInput('parentName')}
-                onFocus={() => setFocused('parentName')}
-                onBlur={() => setFocused('')}
-                className="form-input"
-                style={inputStyle('parentName')}
-              />
-            </Field>
-          </div>
+          <Field label="Parent Name" Icon={IconUser} required error={errors.parentName}>
+            <input
+              type="text"
+              placeholder="Enter parent name"
+              value={form.parentName}
+              onChange={handleInput('parentName')}
+              onFocus={() => setFocused('parentName')}
+              onBlur={() => setFocused('')}
+              className="form-input"
+              style={inputStyle('parentName')}
+            />
+          </Field>
 
-          <div className="form-row" style={styles.row}>
-            <Field label="Class" icon="🏫" required error={errors.studentClass}>
-              <select
-                value={form.studentClass}
-                onChange={handleInput('studentClass')}
-                onFocus={() => setFocused('studentClass')}
-                onBlur={() => setFocused('')}
-                className="form-input"
-                style={{ ...inputStyle('studentClass'), appearance: 'auto' }}
-              >
-                <option value="">Select Class</option>
-                {CLASSES.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </Field>
+          <Field label="Class" Icon={IconBriefcase} required error={errors.studentClass}>
+            <select
+              value={form.studentClass}
+              onChange={handleInput('studentClass')}
+              onFocus={() => setFocused('studentClass')}
+              onBlur={() => setFocused('')}
+              className="form-input"
+              style={{ ...inputStyle('studentClass'), appearance: 'auto' }}
+            >
+              <option value="">Select Class</option>
+              {CLASSES.map((c) => <option key={c} value={c}>{c}</option>)}
+            </select>
+          </Field>
 
-            <Field label="Mobile Number" icon="📱" required error={errors.mobile}>
-              <input
-                type="tel"
-                inputMode="numeric"
-                placeholder="Enter mobile number"
-                value={form.mobile}
-                onChange={handleInput('mobile')}
-                onFocus={() => setFocused('mobile')}
-                onBlur={() => setFocused('')}
-                className="form-input"
-                style={inputStyle('mobile')}
-              />
-            </Field>
-          </div>
+          <Field label="Mobile Number" Icon={IconPhone} required error={errors.mobile}>
+            <input
+              type="tel"
+              inputMode="numeric"
+              placeholder="Enter mobile number"
+              value={form.mobile}
+              onChange={handleInput('mobile')}
+              onFocus={() => setFocused('mobile')}
+              onBlur={() => setFocused('')}
+              className="form-input"
+              style={inputStyle('mobile')}
+            />
+          </Field>
 
-          <div className="form-row" style={styles.row}>
-            <Field label="Email ID" icon="✉️" error={errors.email}>
-              <input
-                type="email"
-                placeholder="Enter email id"
-                value={form.email}
-                onChange={handleInput('email')}
-                onFocus={() => setFocused('email')}
-                onBlur={() => setFocused('')}
-                className="form-input"
-                style={inputStyle('email')}
-              />
-            </Field>
+          <Field label="Email ID" Icon={IconMail} error={errors.email}>
+            <input
+              type="email"
+              placeholder="Enter email id"
+              value={form.email}
+              onChange={handleInput('email')}
+              onFocus={() => setFocused('email')}
+              onBlur={() => setFocused('')}
+              className="form-input"
+              style={inputStyle('email')}
+            />
+          </Field>
 
-            <Field label="Previous School (Optional)" icon="🎒">
-              <input
-                type="text"
-                placeholder="Enter school name"
-                value={form.previousSchool}
-                onChange={handleInput('previousSchool')}
-                onFocus={() => setFocused('previousSchool')}
-                onBlur={() => setFocused('')}
-                className="form-input"
-                style={inputStyle('previousSchool')}
-              />
-            </Field>
-          </div>
+          <Field label={<>Previous School<span style={styles.optional}> (Optional)</span></>} Icon={IconSchool}>
+            <input
+              type="text"
+              placeholder="Enter school name"
+              value={form.previousSchool}
+              onChange={handleInput('previousSchool')}
+              onFocus={() => setFocused('previousSchool')}
+              onBlur={() => setFocused('')}
+              className="form-input"
+              style={inputStyle('previousSchool')}
+            />
+          </Field>
 
           {/* Fee info card */}
           <div className="fee-card" style={styles.feeCard}>
@@ -239,17 +232,70 @@ export default function EnrollForm({ onSubmitSuccess }) {
   );
 }
 
-function Field({ label, icon, required, error, children }) {
+function Field({ label, Icon, required, error, children }) {
   return (
-    <div style={styles.field}>
+    <div className="form-field" style={styles.field}>
       <label className="form-label" style={styles.fieldLabel}>
-        <span style={styles.fieldIcon}>{icon}</span>
-        {label}
-        {required && <span style={styles.req}>*</span>}
+        {Icon && <Icon />}
+        <span style={styles.fieldLabelText}>
+          {label}
+          {required && <span style={styles.req}>*</span>}
+        </span>
       </label>
-      {children}
-      {error && <p style={styles.errorText}>{error}</p>}
+      <div className="form-control" style={styles.control}>
+        {children}
+        {error && <p style={styles.errorText}>{error}</p>}
+      </div>
     </div>
+  );
+}
+
+const iconProps = {
+  width: 20, height: 20, viewBox: '0 0 24 24',
+  fill: 'none', stroke: 'currentColor', strokeWidth: 1.8,
+  strokeLinecap: 'round', strokeLinejoin: 'round',
+  style: { flexShrink: 0, color: 'var(--ink)' },
+};
+
+function IconUser() {
+  return (
+    <svg {...iconProps}>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+    </svg>
+  );
+}
+function IconBriefcase() {
+  return (
+    <svg {...iconProps}>
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+      <path d="M3 13h18" />
+    </svg>
+  );
+}
+function IconPhone() {
+  return (
+    <svg {...iconProps}>
+      <path d="M22 16.92V21a1 1 0 0 1-1.1 1 19 19 0 0 1-8.3-3 19 19 0 0 1-6-6 19 19 0 0 1-3-8.3A1 1 0 0 1 4.6 3h4a1 1 0 0 1 1 .75l1 4a1 1 0 0 1-.27.95L8.3 10.7a16 16 0 0 0 5 5l2-2a1 1 0 0 1 .95-.27l4 1a1 1 0 0 1 .75 1Z" />
+    </svg>
+  );
+}
+function IconMail() {
+  return (
+    <svg {...iconProps}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3 7 9 6 9-6" />
+    </svg>
+  );
+}
+function IconSchool() {
+  return (
+    <svg {...iconProps}>
+      <path d="M3 21V10l9-6 9 6v11" />
+      <path d="M9 21v-7h6v7" />
+      <path d="M3 21h18" />
+    </svg>
   );
 }
 
@@ -268,60 +314,52 @@ const styles = {
     padding: '2.5rem 2rem',
     boxShadow: '0 18px 50px rgba(15,23,42,0.06)',
   },
-  header: { textAlign: 'center', marginBottom: '2rem' },
-  tag: {
-    display: 'inline-block',
-    background: 'var(--brand-blue-soft)',
-    color: 'var(--brand-blue)',
-    padding: '0.4rem 1rem',
-    borderRadius: 999,
-    fontWeight: 600,
-    fontSize: '0.82rem',
-    marginBottom: '0.75rem',
-    letterSpacing: '0.5px',
-  },
+  header: { textAlign: 'center', marginBottom: '1.75rem' },
   title: {
     fontFamily: "'Poppins', sans-serif",
-    fontSize: 'clamp(1.6rem, 4vw, 2.3rem)',
+    fontSize: 'clamp(1.6rem, 3.6vw, 2rem)',
     fontWeight: 800,
-    color: 'var(--ink)',
-    marginBottom: '0.35rem',
-    letterSpacing: '-0.5px',
+    color: 'var(--brand-blue)',
+    marginBottom: '0.5rem',
+    letterSpacing: '-0.3px',
   },
   subtitle: { color: 'var(--muted)', fontSize: '0.95rem' },
   form: {},
-  row: {
+  field: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: '180px 1fr',
+    alignItems: 'center',
     gap: '1rem',
-    marginBottom: '1rem',
+    padding: '0.65rem 0',
+    borderBottom: '1px solid var(--line)',
   },
-  field: { display: 'flex', flexDirection: 'column' },
   fieldLabel: {
     display: 'flex',
     alignItems: 'center',
-    gap: '0.5rem',
-    fontSize: '0.9rem',
-    fontWeight: 600,
-    color: 'var(--ink-soft)',
-    marginBottom: '0.4rem',
-  },
-  fieldIcon: {
-    width: 24,
-    textAlign: 'center',
+    gap: '0.6rem',
     fontSize: '0.95rem',
+    fontWeight: 600,
+    color: 'var(--ink)',
   },
+  fieldLabelText: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  control: { width: '100%' },
+  optional: { color: 'var(--muted)', fontWeight: 500, marginLeft: 4 },
   req: { color: 'var(--brand-red)', marginLeft: 2 },
   input: {
     width: '100%',
-    padding: '0.85rem 1rem',
-    border: '1.5px solid var(--line)',
+    padding: '0.7rem 1rem',
+    border: '1px solid var(--line)',
     borderRadius: 10,
     fontFamily: "'Poppins', sans-serif",
     fontSize: '0.95rem',
     fontWeight: 500,
     outline: 'none',
     color: 'var(--ink)',
+    background: 'white',
     transition: 'all 0.2s ease',
   },
   feeCard: {
