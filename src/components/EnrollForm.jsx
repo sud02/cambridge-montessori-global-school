@@ -1,9 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { upload } from '@vercel/blob/client';
 
 const CLASSES = [
   'L.K.G', 'U.K.G',
   'Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5',
 ];
+
+// Google Apps Script Web App endpoint that appends each submission to a Google Sheet.
+// Replace with your deployed URL — see scripts/google-apps-script.gs for the script
+// to paste into Extensions → Apps Script and deploy as a Web App (Anyone access).
+const SHEETS_ENDPOINT = process.env.REACT_APP_SHEETS_ENDPOINT || '';
 
 const INITIAL_FORM = {
   studentName: '',
@@ -12,8 +18,12 @@ const INITIAL_FORM = {
   mobile: '',
   email: '',
   previousSchool: '',
+  paymentProof: null,
   agreed: false,
 };
+
+const MAX_PROOF_SIZE = 5 * 1024 * 1024; // 5MB
+const PROOF_UPLOAD_ROUTE = '/api/upload-proof';
 
 export default function EnrollForm({ onSubmitSuccess }) {
   const sectionRef = useRef(null);
@@ -46,18 +56,63 @@ export default function EnrollForm({ onSubmitSuccess }) {
     return e;
   };
 
-  const handleSubmit = (e) => {
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
 
-    // TODO: Replace with real API call
-    console.log('Registration payload:', form);
+    setSending(true);
+    try {
+      // 1) If a proof screenshot was attached, upload it directly to Vercel Blob
+      //    via the /api/upload-proof handshake. We get back a public URL.
+      let proofUrl = '';
+      let proofName = '';
+      if (form.paymentProof) {
+        const safeName = `proofs/${Date.now()}-${form.paymentProof.name.replace(/[^\w.\-]+/g, '_')}`;
+        const blob = await upload(safeName, form.paymentProof, {
+          access: 'public',
+          handleUploadUrl: PROOF_UPLOAD_ROUTE,
+          contentType: form.paymentProof.type || undefined,
+        });
+        proofUrl  = blob.url;
+        proofName = form.paymentProof.name;
+      }
 
-    setSubmitted(true);
-    onSubmitSuccess?.();
-    setTimeout(() => { setSubmitted(false); setForm(INITIAL_FORM); }, 3500);
+      // 2) POST the form data + proof URL to the Google Sheets webhook.
+      const payload = new URLSearchParams();
+      payload.set('submittedAt',    new Date().toISOString());
+      payload.set('studentName',    form.studentName);
+      payload.set('parentName',     form.parentName);
+      payload.set('class',          form.studentClass);
+      payload.set('mobile',         form.mobile);
+      payload.set('email',          form.email || '');
+      payload.set('previousSchool', form.previousSchool || '');
+      payload.set('paymentProofName', proofName);
+      payload.set('paymentProofUrl',  proofUrl);
+
+      if (SHEETS_ENDPOINT) {
+        await fetch(SHEETS_ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: payload.toString(),
+        });
+      } else {
+        console.warn('SHEETS_ENDPOINT not set — skipping POST. Payload:', Object.fromEntries(payload));
+      }
+
+      setSubmitted(true);
+      onSubmitSuccess?.();
+      setTimeout(() => { setSubmitted(false); setForm(INITIAL_FORM); }, 3500);
+    } catch (err) {
+      console.error('Submission failed:', err);
+      setErrors((er) => ({ ...er, _submit: 'Could not submit. Please try again or use WhatsApp.' }));
+    } finally {
+      setSending(false);
+    }
   };
 
   const inputStyle = (name) => ({
@@ -158,6 +213,24 @@ export default function EnrollForm({ onSubmitSuccess }) {
             />
           </Field>
 
+          <Field
+            label={<>Payment Proof<span style={styles.optional}> (Optional)</span></>}
+            Icon={IconUpload}
+            error={errors.paymentProof}
+          >
+            <ProofUploader
+              file={form.paymentProof}
+              onPick={(file) => {
+                if (file && file.size > MAX_PROOF_SIZE) {
+                  setErrors((er) => ({ ...er, paymentProof: 'File too large (max 5MB)' }));
+                  return;
+                }
+                setErrors((er) => { const { paymentProof, ...rest } = er; return rest; });
+                setForm((f) => ({ ...f, paymentProof: file }));
+              }}
+            />
+          </Field>
+
           {/* Fee info card */}
           <div className="fee-card" style={styles.feeCard}>
             <div>
@@ -194,16 +267,20 @@ export default function EnrollForm({ onSubmitSuccess }) {
 
           <button
             type="submit"
-            disabled={submitted}
+            disabled={submitted || sending}
             className="submit-btn"
             style={{
               ...styles.submitBtn,
               background: submitted ? 'var(--success)' : 'var(--brand-blue)',
-              cursor: submitted ? 'default' : 'pointer',
+              cursor: (submitted || sending) ? 'default' : 'pointer',
+              opacity: sending && !submitted ? 0.85 : 1,
             }}
           >
-            {submitted ? '✅ Submitted Successfully!' : 'Submit & Register'}
+            {submitted
+              ? '✅ Submitted Successfully!'
+              : sending ? 'Sending…' : 'Submit & Register'}
           </button>
+          {errors._submit && <p style={{ ...styles.errorText, textAlign: 'center', marginTop: '0.6rem' }}>{errors._submit}</p>}
 
           <p style={styles.smallNote}>
             After successful registration, you'll receive a confirmation on WhatsApp / SMS.
@@ -298,6 +375,75 @@ function IconSchool() {
     </svg>
   );
 }
+function IconUpload() {
+  return (
+    <svg {...iconProps}>
+      <path d="M21 15v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3" />
+      <path d="M17 8 12 3 7 8" />
+      <path d="M12 3v13" />
+    </svg>
+  );
+}
+
+function ProofUploader({ file, onPick }) {
+  const inputRef = React.useRef(null);
+  const [preview, setPreview] = React.useState(null);
+
+  React.useEffect(() => {
+    if (!file || !file.type?.startsWith('image/')) { setPreview(null); return; }
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+
+  const click = () => inputRef.current?.click();
+  const pick = (e) => onPick(e.target.files?.[0] ?? null);
+  const clear = (e) => {
+    e.stopPropagation();
+    onPick(null);
+    if (inputRef.current) inputRef.current.value = '';
+  };
+
+  return (
+    <div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        onChange={pick}
+        style={{ display: 'none' }}
+      />
+
+      {file ? (
+        <div style={styles.proofCard}>
+          {preview
+            ? <img src={preview} alt="Payment proof preview" style={styles.proofThumb} />
+            : <div style={styles.proofThumbFallback}><IconUpload /></div>}
+          <div style={styles.proofMeta}>
+            <div style={styles.proofName}>{file.name}</div>
+            <div style={styles.proofSize}>{(file.size / 1024).toFixed(0)} KB</div>
+          </div>
+          <button type="button" onClick={click} style={styles.proofChange}>Change</button>
+          <button type="button" onClick={clear} aria-label="Remove" style={styles.proofRemove}>×</button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={click}
+          style={styles.proofPicker}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--brand-blue)'; e.currentTarget.style.background = 'var(--bg-blue-tint)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.background = 'white'; }}
+        >
+          <IconUpload />
+          <span style={styles.proofPickerText}>
+            <span style={styles.proofPickerTitle}>Click to upload screenshot</span>
+            <span style={styles.proofPickerSub}>PNG / JPG up to 5MB</span>
+          </span>
+        </button>
+      )}
+    </div>
+  );
+}
 
 const styles = {
   section: {
@@ -349,6 +495,100 @@ const styles = {
   control: { width: '100%' },
   optional: { color: 'var(--muted)', fontWeight: 500, marginLeft: 4 },
   req: { color: 'var(--brand-red)', marginLeft: 2 },
+
+  /* Proof uploader */
+  proofPicker: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '0.85rem 1rem',
+    background: 'white',
+    border: '1.5px dashed var(--line)',
+    borderRadius: 10,
+    cursor: 'pointer',
+    color: 'var(--ink-soft)',
+    transition: 'all 0.2s ease',
+    fontFamily: 'inherit',
+    textAlign: 'left',
+  },
+  proofPickerText: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2,
+    minWidth: 0,
+  },
+  proofPickerTitle: {
+    fontSize: '0.92rem',
+    fontWeight: 600,
+    color: 'var(--ink)',
+  },
+  proofPickerSub: {
+    fontSize: '0.78rem',
+    color: 'var(--muted)',
+  },
+  proofCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '0.6rem 0.7rem',
+    background: 'var(--bg-blue-tint)',
+    border: '1px solid rgba(30,58,138,0.18)',
+    borderRadius: 10,
+  },
+  proofThumb: {
+    width: 44, height: 44,
+    borderRadius: 8,
+    objectFit: 'cover',
+    flexShrink: 0,
+    background: 'white',
+    border: '1px solid var(--line)',
+  },
+  proofThumbFallback: {
+    width: 44, height: 44,
+    borderRadius: 8,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'white',
+    border: '1px solid var(--line)',
+    color: 'var(--brand-blue)',
+    flexShrink: 0,
+  },
+  proofMeta: { flex: 1, minWidth: 0 },
+  proofName: {
+    fontSize: '0.9rem',
+    fontWeight: 600,
+    color: 'var(--ink)',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  proofSize: {
+    fontSize: '0.75rem',
+    color: 'var(--muted)',
+  },
+  proofChange: {
+    background: 'transparent',
+    border: '1px solid var(--brand-blue)',
+    color: 'var(--brand-blue)',
+    borderRadius: 8,
+    padding: '0.35rem 0.7rem',
+    fontSize: '0.8rem',
+    fontWeight: 600,
+    cursor: 'pointer',
+    flexShrink: 0,
+  },
+  proofRemove: {
+    background: 'transparent',
+    border: 'none',
+    color: 'var(--muted)',
+    fontSize: '1.5rem',
+    lineHeight: 1,
+    cursor: 'pointer',
+    padding: '0 4px',
+    flexShrink: 0,
+  },
   input: {
     width: '100%',
     padding: '0.7rem 1rem',
