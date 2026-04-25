@@ -71,7 +71,7 @@ export default function EnrollForm({ onSubmitSuccess }) {
       let proofUrl = '';
       let proofName = '';
       if (form.paymentProof) {
-        const safeName = `proofs/${Date.now()}-${form.paymentProof.name.replace(/[^\w.\-]+/g, '_')}`;
+        const safeName = `proofs/${Date.now()}-${form.paymentProof.name.replace(/[^\w.-]+/g, '_')}`;
         const blob = await upload(safeName, form.paymentProof, {
           access: 'public',
           handleUploadUrl: PROOF_UPLOAD_ROUTE,
