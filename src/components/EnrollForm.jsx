@@ -215,6 +215,24 @@ export default function EnrollForm({ onSubmitSuccess }) {
           <p style={styles.smallNote}>
             After successful registration, you'll receive a confirmation on WhatsApp / SMS.
           </p>
+
+          <div style={styles.enquireDivider}>
+            <span style={styles.enquireDividerLine} />
+            <span style={styles.enquireDividerText}>have questions?</span>
+            <span style={styles.enquireDividerLine} />
+          </div>
+
+          <a
+            href="https://wa.me/919109929109?text=Hi%2C%20I%20would%20like%20to%20enquire%20about%20the%20Scholarship%20Exam%202026."
+            target="_blank"
+            rel="noreferrer"
+            style={styles.enquireBtn}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M20.52 3.48A11.93 11.93 0 0 0 12.06 0C5.5 0 .17 5.33.17 11.89c0 2.09.55 4.14 1.6 5.94L0 24l6.31-1.65a11.86 11.86 0 0 0 5.74 1.46h.01c6.55 0 11.89-5.33 11.89-11.89 0-3.18-1.24-6.17-3.43-8.44ZM12.07 21.5h-.01a9.5 9.5 0 0 1-4.84-1.32l-.35-.21-3.74.98 1-3.65-.23-.37a9.49 9.49 0 1 1 17.66-4.94c0 5.24-4.27 9.51-9.49 9.51Zm5.49-7.13c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.36.22-.66.07-.3-.15-1.27-.47-2.41-1.49-.89-.79-1.5-1.77-1.67-2.07-.18-.3-.02-.46.13-.61.13-.13.3-.36.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.07-.15-.68-1.63-.93-2.24-.25-.59-.5-.51-.68-.52l-.58-.01c-.2 0-.53.07-.8.38-.27.3-1.06 1.04-1.06 2.53s1.08 2.94 1.23 3.14c.15.2 2.13 3.25 5.16 4.55.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.07-.13-.27-.2-.57-.35Z" />
+            </svg>
+            Enquire on WhatsApp
+          </a>
         </form>
       </div>
     </section>
@@ -382,6 +400,45 @@ const styles = {
     fontSize: '0.82rem',
     color: 'var(--muted)',
     marginTop: '0.9rem',
+  },
+  enquireDivider: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    margin: '1.25rem 0 1rem',
+    color: 'var(--muted)',
+    fontSize: '0.78rem',
+    fontWeight: 600,
+    letterSpacing: '0.5px',
+  },
+  enquireDividerText: {
+    flexShrink: 0,
+    textTransform: 'uppercase',
+  },
+  enquireDividerLine: {
+    flex: 1,
+    height: 1,
+    background: 'var(--line)',
+  },
+  enquireBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.5rem',
+    width: '100%',
+    background: '#25D366',
+    color: 'white',
+    border: 'none',
+    borderRadius: 12,
+    padding: '0.95rem 1rem',
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: '1rem',
+    fontWeight: 700,
+    letterSpacing: '0.3px',
+    cursor: 'pointer',
+    boxShadow: '0 10px 24px rgba(37,211,102,0.28)',
+    textDecoration: 'none',
+    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   },
   errorText: {
     color: '#dc2626',
