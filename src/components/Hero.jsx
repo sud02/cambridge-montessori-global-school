@@ -401,9 +401,9 @@ const styles = {
   mBannerArt: {
     position: 'absolute',
     right: -53,
-    bottom: -35,
-    width: 287,
-    height: '100%',
+    bottom: -39,
+    width: 360,
+    height: '120%',
     objectFit: 'contain',
     objectPosition: 'right bottom',
     pointerEvents: 'none',
