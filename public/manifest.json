@@ -1,6 +1,6 @@
 {
-  "short_name": "CMG Summer Camp",
-  "name": "Cambridge Montessori Global School — Summer Skill Enrichment 2026",
+  "short_name": "CMG Scholarship 2026",
+  "name": "Cambridge Montessori Global School — Scholarship Exam 2026",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#FF6B35",
-  "background_color": "#FFF8E7"
+  "theme_color": "#1e3a8a",
+  "background_color": "#ffffff"
 }

@@ -1,272 +1,477 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const STAT_PILLS = [
-  { emoji: '📅', text: '10 Days' },
-  { emoji: '⏰', text: '2.5–3 Hrs Daily' },
-  { emoji: '📍', text: 'School Campus' },
+const EXAM_DATE = new Date('2026-05-25T10:00:00+05:30');
+
+const TRUST_ITEMS = [
+  { icon: '🛡️',  title: 'Safe & Secure',     sub: 'Environment' },
+  { icon: '👩‍🏫', title: 'Experienced',       sub: 'Teachers' },
+  { icon: '🏆',  title: 'Fair & Transparent', sub: 'Evaluation' },
 ];
 
-const PHOTO_LABELS = ['Kid Photo 1', 'Kid Photo 2', 'Kid Photo 3'];
+const FEATURE_CARDS = [
+  { icon: '🎓', label: 'Classes',          value: 'L.K.G to Class 5' },
+  { icon: '💰', label: 'Registration Fee', value: '₹100 Only' },
+  { icon: '🏆', label: 'Win Up to',        value: '50% Scholarship' },
+];
+
+function diff(to) {
+  const ms = Math.max(0, to.getTime() - Date.now());
+  const days    = Math.floor(ms / 86_400_000);
+  const hours   = Math.floor((ms % 86_400_000) / 3_600_000);
+  const minutes = Math.floor((ms % 3_600_000) / 60_000);
+  const seconds = Math.floor((ms % 60_000) / 1000);
+  return { days, hours, minutes, seconds };
+}
 
 export default function Hero() {
-  const handleEnroll = () => {
-    document.getElementById('enroll')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const [t, setT] = useState(diff(EXAM_DATE));
+
+  useEffect(() => {
+    const id = setInterval(() => setT(diff(EXAM_DATE)), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const goRegister = () =>
+    document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <section className="hero-section" style={styles.hero}>
-      {/* Shimmer overlay */}
-      <div style={styles.shimmerOverlay} />
+    <section id="home" className="hero" style={styles.hero}>
+      <div style={styles.bgBlobA} />
+      <div style={styles.bgBlobB} />
 
-      {/* Clouds */}
-      <div style={styles.cloudLayer}>
-        <div style={{ ...styles.cloud, ...styles.cloud1 }}>
-          <div style={{ ...styles.cloudBump, width: 50, height: 50, top: -25, left: 20 }} />
-          <div style={{ ...styles.cloudBump, width: 70, height: 60, top: -30, left: 50 }} />
+      {/* ── DESKTOP LAYOUT ── */}
+      <div className="hero-desktop hero-grid" style={styles.grid}>
+        <div style={styles.left}>
+          <img
+            src="/img_src/CMG-LOGO-FINAL-png.png"
+            alt="Cambridge Montessori Global School"
+            className="hero-logo"
+            style={styles.logo}
+          />
+
+          <h1 className="hero-title" style={styles.title}>
+            Unlock Your Child's<br />
+            <span style={styles.titleAccent}>BRIGHT FUTURE</span>
+          </h1>
+
+          <div className="hero-badge" style={styles.badge}>
+            SCHOLARSHIP EXAM 2026
+          </div>
+
+          <p className="hero-sub" style={styles.sub}>
+            For L.K.G to Class 5<br />
+            <span style={styles.subMuted}>Conducted offline at Cambridge Montessori Global School</span>
+          </p>
+
+          <div className="hero-trust" style={styles.trustRow}>
+            {TRUST_ITEMS.map((it) => (
+              <div key={it.title} style={styles.trustItem}>
+                <span style={styles.trustIcon}>{it.icon}</span>
+                <span style={styles.trustText}>
+                  <span style={styles.trustTitle}>{it.title}</span>
+                  <span style={styles.trustSub}>{it.sub}</span>
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
-        <div style={{ ...styles.cloud, ...styles.cloud2 }}>
-          <div style={{ ...styles.cloudBump, width: 40, height: 40, top: -20, left: 15 }} />
-          <div style={{ ...styles.cloudBump, width: 55, height: 45, top: -22, left: 40 }} />
-        </div>
-        <div style={{ ...styles.cloud, ...styles.cloud3 }}>
-          <div style={{ ...styles.cloudBump, width: 45, height: 45, top: -22, left: 18 }} />
-          <div style={{ ...styles.cloudBump, width: 60, height: 50, top: -25, left: 45 }} />
+
+        <div className="hero-card" style={styles.card}>
+          <div style={styles.cardTopLabel}>REGISTRATION FEE</div>
+          <div style={styles.cardAmount}>
+            <span style={styles.rupee}>₹</span>
+            <span style={styles.amountNum}>100</span>
+            <span style={styles.only}>Only</span>
+          </div>
+
+          <div style={styles.limitedBar}>HURRY! LIMITED SEATS</div>
+
+          <div className="hero-countdown" style={styles.countdown}>
+            <Segment value={t.days} label="Days" />
+            <Segment value={t.hours} label="Hours" />
+            <Segment value={t.minutes} label="Minutes" />
+            <Segment value={t.seconds} label="Seconds" />
+          </div>
+
+          <button
+            className="hero-register-btn"
+            style={styles.registerBtn}
+            onClick={goRegister}
+          >
+            REGISTER NOW
+          </button>
+
+          <div style={styles.cardFoot}>
+            Register online or at school · Seats fill fast
+          </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div style={styles.content}>
-        <img
-          src="/img_src/CMG-LOGO-FINAL-png.png"
-          alt="Cambridge Montessori Global School"
-          className="pop-in-0 hero-logo"
-          style={styles.logoImg}
-        />
-
-        <div className="pop-in-0 hero-badge" style={styles.badge}>
-          ☀️ SUMMER SKILL ENRICHMENT 2026
+      {/* ── MOBILE LAYOUT ── */}
+      <div className="hero-mobile" style={styles.mobileWrap}>
+        {/* Navy hero banner */}
+        <div style={styles.mBanner}>
+          <div style={styles.mBannerGlowA} />
+          <div style={styles.mBannerGlowB} />
+          <div style={styles.mBannerText}>
+            <div style={styles.mSmallLine}>Unlock Your Child's</div>
+            <div style={styles.mBigLine}>BRIGHT FUTURE</div>
+            <div style={styles.mSubLine}>Scholarship Exam 2026</div>
+            <div style={styles.mOfflinePill}>Offline Exam at School Campus</div>
+          </div>
         </div>
 
-        <h1 className="pop-in-1 hero-title" style={styles.title}>
-          Give your child a summer full of{' '}
-          <span style={styles.highlightWrap}>
-            <span style={styles.highlightText}>Learning</span>
-            <span style={styles.highlightBar} />
-          </span>
-          , Creativity &amp; Fun! 🌈
-        </h1>
-
-        <div className="pop-in-2 hero-emoji-row" style={styles.emojiRow}>
-          🎨 🧠 💃 ⚽ 🎶 📚 🧘
-        </div>
-
-        <p className="pop-in-3 hero-subtitle" style={styles.subtitle}>
-          Our Summer Camp is designed to enhance skills, build confidence, and create
-          joyful memories through engaging activities.
-        </p>
-
-        <div className="pop-in-4 hero-pills-row" style={styles.pillsRow}>
-          {STAT_PILLS.map((p) => (
-            <div key={p.text} className="hero-stat-pill" style={styles.statPill}>
-              {p.emoji} {p.text}
+        {/* Feature pill cards */}
+        <div style={styles.mFeatureRow}>
+          {FEATURE_CARDS.map((f) => (
+            <div key={f.label} style={styles.mFeatureCard}>
+              <div style={styles.mFeatureIcon}>{f.icon}</div>
+              <div style={styles.mFeatureLabel}>{f.label}</div>
+              <div style={styles.mFeatureValue}>{f.value}</div>
             </div>
           ))}
         </div>
 
+        {/* Countdown card */}
+        <div style={styles.mCountdownCard}>
+          <div style={styles.mCountdownTitle}>REGISTRATION CLOSING SOON</div>
+          <div style={styles.mCountdownGrid}>
+            <MSeg value={t.days} label="Days" />
+            <MSeg value={t.hours} label="Hours" />
+            <MSeg value={t.minutes} label="Minutes" />
+            <MSeg value={t.seconds} label="Seconds" />
+          </div>
+        </div>
+
+        {/* Full-width register button */}
         <button
-          className="pop-in-5 hero-cta-btn"
-          style={styles.ctaBtn}
-          onClick={handleEnroll}
-          onMouseEnter={e => {
-            e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
-            e.currentTarget.style.boxShadow = '0 10px 35px rgba(255,107,53,0.5)';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.transform = 'translateY(0) scale(1)';
-            e.currentTarget.style.boxShadow = '0 6px 25px rgba(255,107,53,0.4)';
-          }}
+          style={styles.mRegisterBtn}
+          onClick={goRegister}
         >
-          Enroll Now ✨
+          REGISTER NOW
+          <span style={styles.mRegisterArrow}>›</span>
         </button>
-
-        <div className="pop-in-6 hero-images-row" style={styles.imagesRow}>
-          {PHOTO_LABELS.map((label) => (
-            <div key={label} className="hero-img-placeholder" style={styles.imgPlaceholder}>
-              <span style={{ fontSize: '2rem' }}>👧</span>
-              <span style={styles.imgLabel}>{label}</span>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
+  );
+}
+
+function Segment({ value, label }) {
+  const v = String(value).padStart(2, '0');
+  return (
+    <div style={styles.seg}>
+      <div style={styles.segVal}>{v}</div>
+      <div style={styles.segLabel}>{label}</div>
+    </div>
+  );
+}
+
+function MSeg({ value, label }) {
+  const v = String(value).padStart(2, '0');
+  return (
+    <div style={styles.mSeg}>
+      <div style={styles.mSegVal}>{v}</div>
+      <div style={styles.mSegLabel}>{label}</div>
+    </div>
   );
 }
 
 const styles = {
   hero: {
     position: 'relative',
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    padding: '3rem 2rem 2rem',
-    background: 'linear-gradient(135deg, var(--sun-yellow) 0%, var(--peach) 30%, var(--sky-blue) 70%, var(--mint) 100%)',
+    background: 'linear-gradient(180deg, #f0f4ff 0%, #ffffff 70%)',
+    padding: '3rem 1.5rem 4rem',
     overflow: 'hidden',
   },
-  shimmerOverlay: {
+  bgBlobA: {
     position: 'absolute',
-    top: '-50%', left: '-50%',
-    width: '200%', height: '200%',
-    background: `radial-gradient(circle at 30% 40%, rgba(255,255,255,0.3) 0%, transparent 50%),
-                 radial-gradient(circle at 70% 60%, rgba(255,217,61,0.2) 0%, transparent 40%)`,
-    animation: 'heroShimmer 12s ease-in-out infinite',
+    top: -120, left: -120,
+    width: 320, height: 320,
+    background: 'radial-gradient(circle, rgba(30,58,138,0.10) 0%, transparent 70%)',
     pointerEvents: 'none',
   },
-  cloudLayer: {
+  bgBlobB: {
     position: 'absolute',
-    top: 0, left: 0, right: 0, bottom: 0,
-    overflow: 'hidden',
+    bottom: -140, right: -140,
+    width: 380, height: 380,
+    background: 'radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 70%)',
     pointerEvents: 'none',
   },
-  cloud: {
-    position: 'absolute',
-    background: 'rgba(255,255,255,0.7)',
-    borderRadius: '50px',
-    animation: 'cloudDrift linear infinite',
-  },
-  cloud1: { width: 120, height: 40, top: '10%', animationDuration: '25s', left: '-220px' },
-  cloud2: { width: 90,  height: 30, top: '20%', animationDuration: '35s', animationDelay: '-10s', left: '-220px' },
-  cloud3: { width: 100, height: 35, top: '8%',  animationDuration: '30s', animationDelay: '-20s', left: '-220px' },
-  cloudBump: {
-    position: 'absolute',
-    background: 'rgba(255,255,255,0.7)',
-    borderRadius: '50%',
-  },
-  content: {
+
+  /* Desktop */
+  grid: {
     position: 'relative',
-    zIndex: 2,
-    maxWidth: 900,
-    width: '100%',
+    maxWidth: 1200,
+    margin: '0 auto',
+    display: 'grid',
+    gridTemplateColumns: '1.25fr 1fr',
+    gap: '2.5rem',
+    alignItems: 'center',
   },
-  logoImg: {
+  left: { textAlign: 'left' },
+  logo: {
     height: 90,
     objectFit: 'contain',
     display: 'block',
-    margin: '0 auto 1.5rem',
-    filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))',
-  },
-  badge: {
-    display: 'inline-block',
-    background: 'var(--coral-orange)',
-    color: 'white',
-    padding: '0.5rem 1.5rem',
-    borderRadius: '50px',
-    fontFamily: "'Fredoka', sans-serif",
-    fontWeight: 600,
-    fontSize: '0.95rem',
-    letterSpacing: '1px',
-    marginBottom: '1.5rem',
-    boxShadow: '0 4px 15px rgba(255,107,53,0.4)',
+    marginBottom: '1.25rem',
+    filter: 'drop-shadow(0 6px 20px rgba(15,23,42,0.12))',
   },
   title: {
-    fontFamily: "'Baloo 2', cursive",
-    fontSize: 'clamp(1.75rem, 6vw, 4.5rem)',
+    fontFamily: "'Poppins', sans-serif",
     fontWeight: 800,
-    lineHeight: 1.2,
+    fontSize: 'clamp(2rem, 5.2vw, 4rem)',
+    lineHeight: 1.05,
+    color: 'var(--ink)',
+    letterSpacing: '-0.5px',
     marginBottom: '1rem',
-    color: 'var(--dark-brown)',
   },
-  highlightWrap: {
-    position: 'relative',
+  titleAccent: { color: 'var(--brand-blue)' },
+  badge: {
     display: 'inline-block',
-  },
-  highlightText: {
-    color: 'var(--coral-orange)',
-    position: 'relative',
-    zIndex: 1,
-  },
-  highlightBar: {
-    position: 'absolute',
-    bottom: 2, left: 0, right: 0,
-    height: 8,
-    background: 'var(--sun-yellow)',
-    borderRadius: 4,
-    zIndex: 0,
-    display: 'block',
-  },
-  emojiRow: {
-    fontSize: '2rem',
-    marginBottom: '1.5rem',
-    letterSpacing: '0.25rem',
-  },
-  subtitle: {
-    fontSize: 'clamp(0.95rem, 2.5vw, 1.3rem)',
-    maxWidth: 650,
-    margin: '0 auto 2rem',
-    lineHeight: 1.7,
-    fontWeight: 500,
-    color: '#5D4037',
-  },
-  pillsRow: {
-    display: 'flex',
-    gap: '0.75rem',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    marginBottom: '1.5rem',
-  },
-  statPill: {
-    background: 'rgba(255,255,255,0.85)',
-    backdropFilter: 'blur(10px)',
-    padding: '0.6rem 1.5rem',
-    borderRadius: '50px',
-    fontWeight: 600,
-    fontSize: '1rem',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-    border: '2px solid rgba(255,255,255,0.5)',
-  },
-  ctaBtn: {
-    display: 'inline-block',
-    background: 'var(--coral-orange)',
+    background: 'var(--brand-red)',
     color: 'white',
-    padding: '1rem 2.5rem',
-    borderRadius: '60px',
-    fontFamily: "'Fredoka', sans-serif",
+    padding: '0.55rem 1.4rem',
+    borderRadius: 8,
     fontWeight: 700,
-    fontSize: '1.3rem',
-    cursor: 'pointer',
-    border: 'none',
-    boxShadow: '0 6px 25px rgba(255,107,53,0.4)',
-    transition: 'all 0.3s ease',
+    fontSize: '0.95rem',
+    letterSpacing: '1.2px',
+    marginBottom: '1.25rem',
+    boxShadow: '0 8px 20px rgba(220,38,38,0.25)',
   },
-  imagesRow: {
-    display: 'flex',
-    gap: '1.5rem',
+  sub: {
+    fontSize: 'clamp(1rem, 2vw, 1.35rem)',
+    fontWeight: 600,
+    color: 'var(--ink-soft)',
+    lineHeight: 1.45,
+    marginBottom: '1.75rem',
+  },
+  subMuted: { fontWeight: 500, fontSize: '0.95rem', color: 'var(--muted)' },
+  trustRow: { display: 'flex', flexWrap: 'wrap', gap: '1.25rem' },
+  trustItem: { display: 'flex', alignItems: 'center', gap: '0.6rem' },
+  trustIcon: {
+    width: 40, height: 40,
+    borderRadius: 10,
+    background: 'var(--brand-blue-soft)',
+    display: 'inline-flex',
+    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '2rem',
-    flexWrap: 'wrap',
+    fontSize: '1.2rem',
   },
-  imgPlaceholder: {
-    width: 140,
-    height: 140,
-    borderRadius: '50%',
-    border: '4px dashed rgba(255,255,255,0.6)',
+  trustText: { display: 'flex', flexDirection: 'column', lineHeight: 1.15 },
+  trustTitle: { fontSize: '0.9rem', fontWeight: 700, color: 'var(--ink)' },
+  trustSub:   { fontSize: '0.78rem', fontWeight: 500, color: 'var(--muted)' },
+
+  card: {
+    background: 'white',
+    border: '2px dashed rgba(30,58,138,0.25)',
+    borderRadius: 20,
+    padding: '1.75rem 1.5rem',
+    boxShadow: '0 20px 60px rgba(15,23,42,0.08)',
+    textAlign: 'center',
+  },
+  cardTopLabel: {
+    fontWeight: 600,
+    fontSize: '0.82rem',
+    letterSpacing: '2.5px',
+    color: 'var(--brand-red)',
+    marginBottom: '0.25rem',
+  },
+  cardAmount: {
+    display: 'flex',
+    alignItems: 'baseline',
+    justifyContent: 'center',
+    gap: '0.15rem',
+    color: 'var(--ink)',
+    marginBottom: '0.9rem',
+  },
+  rupee:     { fontSize: '2rem', fontWeight: 700 },
+  amountNum: { fontSize: '3.2rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-1px' },
+  only:      { fontSize: '1.25rem', fontWeight: 600, marginLeft: '0.35rem', color: 'var(--muted)' },
+  limitedBar: {
+    background: 'var(--brand-blue)',
+    color: 'white',
+    borderRadius: 999,
+    fontWeight: 700,
+    fontSize: '0.85rem',
+    letterSpacing: '1.5px',
+    padding: '0.5rem 0.75rem',
+    marginBottom: '1.1rem',
+  },
+  countdown: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: '0.5rem',
+    marginBottom: '1.2rem',
+  },
+  seg: {
+    background: 'var(--bg-soft)',
+    border: '1px solid var(--line)',
+    borderRadius: 12,
+    padding: '0.7rem 0.3rem 0.5rem',
+  },
+  segVal: { fontSize: '1.7rem', fontWeight: 800, color: 'var(--ink)', lineHeight: 1 },
+  segLabel: { fontSize: '0.72rem', fontWeight: 600, color: 'var(--muted)', letterSpacing: '0.5px', marginTop: 4 },
+  registerBtn: {
+    width: '100%',
+    background: 'var(--brand-red)',
+    color: 'white',
+    border: 'none',
+    borderRadius: 12,
+    padding: '0.95rem 1rem',
+    fontWeight: 700,
+    fontSize: '1.1rem',
+    letterSpacing: '1px',
+    cursor: 'pointer',
+    boxShadow: '0 10px 26px rgba(220,38,38,0.35)',
+  },
+  cardFoot: { fontSize: '0.78rem', color: 'var(--muted)', marginTop: '0.8rem' },
+
+  /* ── Mobile layout ── */
+  mobileWrap: {
+    display: 'none',
+    flexDirection: 'column',
+    gap: '0.9rem',
+    position: 'relative',
+  },
+  mBanner: {
+    position: 'relative',
+    background: 'linear-gradient(135deg, #0f2557 0%, #1e3a8a 60%, #1d4ed8 100%)',
+    borderRadius: 18,
+    padding: '1.1rem 1rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '0.6rem',
+    overflow: 'hidden',
+    color: 'white',
+    boxShadow: '0 16px 40px rgba(15,37,87,0.35)',
+  },
+  mBannerGlowA: {
+    position: 'absolute',
+    top: -40, right: -40,
+    width: 160, height: 160,
+    background: 'radial-gradient(circle, rgba(251,191,36,0.25) 0%, transparent 70%)',
+  },
+  mBannerGlowB: {
+    position: 'absolute',
+    bottom: -40, left: -40,
+    width: 180, height: 180,
+    background: 'radial-gradient(circle, rgba(220,38,38,0.18) 0%, transparent 70%)',
+  },
+  mBannerText: {
+    position: 'relative',
+    flex: 1,
+    minWidth: 0,
+  },
+  mSmallLine: {
+    fontSize: '0.82rem',
+    fontWeight: 500,
+    opacity: 0.85,
+    marginBottom: 2,
+  },
+  mBigLine: {
+    fontFamily: "'Poppins', sans-serif",
+    fontWeight: 800,
+    fontSize: '1.55rem',
+    lineHeight: 1.05,
+    letterSpacing: '-0.5px',
+    color: 'var(--gold)',
+    marginBottom: 4,
+  },
+  mSubLine: {
+    fontSize: '0.82rem',
+    fontWeight: 500,
+    opacity: 0.9,
+    marginBottom: 8,
+  },
+  mOfflinePill: {
+    display: 'inline-block',
+    background: 'var(--brand-red)',
+    color: 'white',
+    fontSize: '0.72rem',
+    fontWeight: 700,
+    padding: '0.35rem 0.7rem',
+    borderRadius: 999,
+    letterSpacing: '0.3px',
+    boxShadow: '0 6px 14px rgba(220,38,38,0.35)',
+  },
+  mFeatureRow: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    gap: '0.5rem',
+  },
+  mFeatureCard: {
+    background: 'white',
+    border: '1px solid var(--line)',
+    borderRadius: 14,
+    padding: '0.75rem 0.5rem',
+    textAlign: 'center',
+    boxShadow: '0 6px 18px rgba(15,23,42,0.06)',
+  },
+  mFeatureIcon: { fontSize: '1.3rem', marginBottom: 2 },
+  mFeatureLabel: { fontSize: '0.7rem', color: 'var(--muted)', fontWeight: 600, marginBottom: 2 },
+  mFeatureValue: { fontSize: '0.78rem', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.2 },
+
+  mCountdownCard: {
+    background: 'white',
+    border: '1px solid var(--line)',
+    borderRadius: 14,
+    padding: '0.9rem 0.75rem',
+    boxShadow: '0 6px 18px rgba(15,23,42,0.06)',
+  },
+  mCountdownTitle: {
+    textAlign: 'center',
+    fontSize: '0.72rem',
+    fontWeight: 800,
+    letterSpacing: '2px',
+    color: 'var(--brand-blue)',
+    marginBottom: '0.6rem',
+  },
+  mCountdownGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: '0.4rem',
+  },
+  mSeg: {
+    background: 'var(--bg-soft)',
+    borderRadius: 10,
+    padding: '0.55rem 0.2rem 0.4rem',
+    textAlign: 'center',
+  },
+  mSegVal: {
+    fontSize: '1.3rem',
+    fontWeight: 800,
+    color: 'var(--ink)',
+    lineHeight: 1,
+    letterSpacing: '-0.5px',
+  },
+  mSegLabel: {
+    fontSize: '0.65rem',
+    fontWeight: 600,
+    color: 'var(--muted)',
+    marginTop: 4,
+  },
+
+  mRegisterBtn: {
+    width: '100%',
+    background: 'var(--brand-red)',
+    color: 'white',
+    border: 'none',
+    borderRadius: 14,
+    padding: '0.95rem 1rem',
+    fontWeight: 800,
+    fontSize: '1rem',
+    letterSpacing: '1.2px',
+    cursor: 'pointer',
+    boxShadow: '0 12px 26px rgba(220,38,38,0.35)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: 'rgba(255,255,255,0.3)',
-    backdropFilter: 'blur(5px)',
-    flexDirection: 'column',
-    gap: '0.3rem',
+    gap: '0.5rem',
   },
-  imgLabel: {
-    color: 'rgba(62,39,35,0.6)',
-    fontSize: '0.72rem',
-    fontWeight: 600,
-    textAlign: 'center',
-    lineHeight: 1.3,
+  mRegisterArrow: {
+    fontSize: '1.4rem',
+    fontWeight: 800,
+    lineHeight: 1,
   },
 };

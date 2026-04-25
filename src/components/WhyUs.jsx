@@ -1,101 +1,139 @@
 import React, { useEffect, useRef } from 'react';
 
-const CARDS = [
-  { emoji: '🏫', title: 'Safe Campus',      desc: 'Conducted within school premises for a secure environment.', bg: '#FFF3E0' },
-  { emoji: '👩‍🏫', title: 'Expert Trainers',  desc: 'Learn from experienced and passionate instructors.',          bg: '#E8F5E9' },
-  { emoji: '🎉', title: 'Fun Learning',     desc: 'Activities designed to be engaging and joyful for kids.',    bg: '#E3F2FD' },
-  { emoji: '🌟', title: 'Build Confidence', desc: 'Help your child discover talents and grow self-esteem.',      bg: '#F3E5F5' },
+const BENEFITS = [
+  { icon: '🏆', tier: 'Top Performers',  percent: '50%', sub: 'Scholarship',             accent: 'var(--gold)',       bg: '#fef9c3' },
+  { icon: '🎖️', tier: 'Next Level',       percent: '25%', sub: 'Scholarship',             accent: 'var(--brand-blue)', bg: 'var(--brand-blue-soft)' },
+  { icon: '📜', tier: 'All Participants', percent: '100%', sub: 'Participation Certificate', accent: 'var(--success)',    bg: 'var(--success-soft)' },
+];
+
+const STEPS = [
+  { n: 1, icon: '📝', title: 'Register',        desc: 'Fill the form online or at school.' },
+  { n: 2, icon: '🏫', title: 'Visit School',    desc: 'Arrive on exam day with hall ticket.' },
+  { n: 3, icon: '✍️', title: 'Write Exam',      desc: 'Age-appropriate classroom exam.' },
+  { n: 4, icon: '📊', title: 'Results',         desc: 'Evaluation by our teachers.' },
+  { n: 5, icon: '🎉', title: 'Win Scholarship', desc: 'Build your child’s bright future.' },
 ];
 
 export default function WhyUs() {
-  const sectionRef = useRef(null);
+  const ref = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
       { threshold: 0.1 }
     );
-    const els = sectionRef.current?.querySelectorAll('.reveal');
-    els?.forEach(el => observer.observe(el));
-    return () => observer.disconnect();
+    ref.current?.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    return () => io.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className="why-section" style={styles.section}>
+    <section ref={ref} id="about" className="section benefits-section" style={styles.section}>
+      {/* Scholarship Benefits */}
       <div className="reveal" style={styles.header}>
-        <span className="section-tag" style={styles.tag}>💡 Why Join Us?</span>
-        <h2 className="section-title" style={styles.title}>Why Kids Love Our Camp!</h2>
+        <span className="section-tag" style={styles.tag}>🏆 Scholarship Benefits</span>
+        <h2 className="section-title" style={styles.title}>Win up to 50% Scholarship</h2>
+        <p style={styles.subtitle}>Rewarding every student — top performers, next-level scorers, and every participant.</p>
       </div>
-      <div style={styles.grid}>
-        {CARDS.map((card) => <WhyCard key={card.title} card={card} />)}
+
+      <div className="benefits-grid" style={styles.benefitsGrid}>
+        {BENEFITS.map((b) => (
+          <div key={b.tier} className="reveal benefit-card" style={{ ...styles.benefitCard, background: b.bg }}>
+            <div style={styles.benefitIcon}>{b.icon}</div>
+            <div style={{ ...styles.benefitPercent, color: b.accent }}>{b.percent}</div>
+            <div style={styles.benefitSub}>{b.sub}</div>
+            <div style={styles.benefitTier}>{b.tier}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* How it works */}
+      <div className="reveal" style={{ ...styles.header, marginTop: '4.5rem' }}>
+        <span className="section-tag" style={styles.tag}>🧭 How It Works</span>
+        <h2 className="section-title" style={styles.title}>Simple 5-step flow</h2>
+        <p style={styles.subtitle}>From registration to scholarship — we keep it stress-free for parents and children.</p>
+      </div>
+
+      <div className="steps-grid" style={styles.stepsGrid}>
+        {STEPS.map((s) => (
+          <div key={s.n} className="reveal step-card" style={styles.stepCard}>
+            <div style={styles.stepNumber}>{String(s.n).padStart(2, '0')}</div>
+            <div style={styles.stepIcon}>{s.icon}</div>
+            <div style={styles.stepTitle}>{s.title}</div>
+            <div style={styles.stepDesc}>{s.desc}</div>
+          </div>
+        ))}
       </div>
     </section>
   );
 }
 
-function WhyCard({ card }) {
-  const [hovered, setHovered] = React.useState(false);
-  return (
-    <div
-      className="reveal"
-      style={{
-        ...styles.card,
-        background: card.bg,
-        transform: hovered ? 'scale(1.03)' : 'scale(1)',
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <span style={styles.icon}>{card.emoji}</span>
-      <h3 className="why-card-title" style={styles.name}>{card.title}</h3>
-      <p className="why-card-desc" style={styles.desc}>{card.desc}</p>
-    </div>
-  );
-}
-
 const styles = {
-  section: { padding: '4rem 2rem', background: 'white' },
-  header: { textAlign: 'center', marginBottom: '3rem' },
+  section: { padding: '4.5rem 1.5rem', background: 'var(--bg-soft)' },
+  header: { textAlign: 'center', maxWidth: 720, margin: '0 auto 2.5rem' },
   tag: {
     display: 'inline-block',
-    background: 'var(--mint)',
-    color: 'var(--grass-green)',
-    padding: '0.4rem 1.2rem',
-    borderRadius: '30px',
-    fontFamily: "'Fredoka', sans-serif",
+    background: 'white',
+    border: '1px solid var(--line)',
+    color: 'var(--brand-blue)',
+    padding: '0.4rem 1rem',
+    borderRadius: 999,
     fontWeight: 600,
-    fontSize: '0.85rem',
-    marginBottom: '1rem',
+    fontSize: '0.82rem',
+    marginBottom: '0.75rem',
     letterSpacing: '0.5px',
   },
   title: {
-    fontFamily: "'Baloo 2', cursive",
-    fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: 'clamp(1.75rem, 4vw, 2.6rem)',
     fontWeight: 800,
-    color: 'var(--dark-brown)',
-    display: 'block',
+    color: 'var(--ink)',
+    letterSpacing: '-0.5px',
+    marginBottom: '0.5rem',
   },
-  grid: {
+  subtitle: { color: 'var(--muted)', fontSize: '1rem', lineHeight: 1.55 },
+
+  benefitsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '1.5rem',
-    maxWidth: 1100,
+    gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+    gap: '1.25rem',
+    maxWidth: 1080,
     margin: '0 auto',
   },
-  card: {
+  benefitCard: {
+    borderRadius: 18,
+    padding: '1.75rem 1.25rem',
     textAlign: 'center',
-    padding: '2rem 1.5rem',
-    borderRadius: 24,
-    transition: 'transform 0.3s ease',
-    cursor: 'default',
+    border: '1px solid rgba(15,23,42,0.06)',
   },
-  icon: { fontSize: '2.5rem', marginBottom: '0.8rem', display: 'block' },
-  name: {
-    fontFamily: "'Fredoka', sans-serif",
-    fontWeight: 600,
-    fontSize: '1.1rem',
-    marginBottom: '0.4rem',
-    color: 'var(--dark-brown)',
+  benefitIcon: { fontSize: '2.4rem', marginBottom: '0.5rem' },
+  benefitPercent: { fontSize: '2.4rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-1px' },
+  benefitSub: { fontSize: '0.95rem', fontWeight: 600, color: 'var(--ink)', marginTop: '0.25rem' },
+  benefitTier: { fontSize: '0.82rem', color: 'var(--muted)', fontWeight: 600, marginTop: '0.6rem', letterSpacing: '0.4px' },
+
+  stepsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+    gap: '1rem',
+    maxWidth: 1180,
+    margin: '0 auto',
   },
-  desc: { fontSize: '0.9rem', color: '#8D6E63', lineHeight: 1.5 },
+  stepCard: {
+    background: 'white',
+    borderRadius: 16,
+    padding: '1.5rem 1.25rem',
+    border: '1px solid var(--line)',
+    position: 'relative',
+    boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
+  },
+  stepNumber: {
+    position: 'absolute',
+    top: 12, right: 14,
+    fontSize: '0.75rem',
+    fontWeight: 800,
+    color: 'var(--muted)',
+    letterSpacing: '1.5px',
+  },
+  stepIcon: { fontSize: '2rem', marginBottom: '0.6rem' },
+  stepTitle: { fontWeight: 700, fontSize: '1.05rem', color: 'var(--ink)', marginBottom: '0.25rem' },
+  stepDesc:  { fontSize: '0.88rem', color: 'var(--muted)', lineHeight: 1.5 },
 };

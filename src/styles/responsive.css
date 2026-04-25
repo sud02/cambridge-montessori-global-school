@@ -1,189 +1,96 @@
-/* ── Global ───────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   Scholarship Exam 2026 — Responsive layer
+═══════════════════════════════════════════════════════════ */
+
 html { font-size: 16px; }
 
-/* ── Marquee ─────────────────────────────────────────────────── */
-.marquee-item {
-  font-size: 1rem;
-  padding: 0 2rem;
+/* Reveal animation hook */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* ── Hero ────────────────────────────────────────────────────── */
-.hero-logo        { height: 90px; }
-.hero-emoji-row   { font-size: 2rem; letter-spacing: 0.25rem; }
-.hero-images-row  { gap: 1.5rem; }
-.hero-img-placeholder { width: 140px; height: 140px; }
+/* ─── Defaults (desktop) ───────────────────────────────── */
+.cmg-nav-mobile { display: none !important; }
+.hero-mobile    { display: none !important; }
+.hero-desktop   { display: grid !important; }
 
-/* Pills row — override inline gap */
-.hero-pills-row {
-  gap: 0.75rem !important;
-  flex-wrap: wrap !important;
-  justify-content: center !important;
-  margin-bottom: 1.5rem !important;
+/* ═══════════════════════════════════════════════════════════
+   TABLET  ≤ 960px
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.75rem !important;
+  }
+  .visit-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-/* Individual pill */
-.hero-stat-pill {
-  font-size: 0.95rem !important;
-  padding: 0.5rem 1.1rem !important;
-  border-radius: 50px !important;
-  white-space: nowrap;
+/* ═══════════════════════════════════════════════════════════
+   MOBILE  ≤ 768px — switch to phone mockup layout
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Navbar: desktop off, mobile on */
+  .cmg-nav-desktop { display: none !important; }
+  .cmg-nav-mobile  { display: flex !important; }
+
+  /* Hero: desktop off, mobile on */
+  .hero-desktop { display: none !important; }
+  .hero-mobile  { display: flex !important; }
+
+  /* Hero section chrome tightened for phone */
+  .hero {
+    padding: 1rem 0.85rem 2rem !important;
+  }
+
+  /* Section padding */
+  .section { padding: 2.75rem 1rem !important; }
+
+  .marquee-item { font-size: 0.78rem !important; padding: 0 1.1rem !important; }
+  .cmg-marquee  { margin-top: 60px !important; padding: 0.45rem 0 !important; }
+
+  /* Classes eligible wrap flips to single column */
+  .classes-wrap {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+    padding: 1.25rem !important;
+  }
+  .classes-divider { display: none !important; }
+
+  /* Exam details stack */
+  .exam-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* Syllabus */
+  .syllabus-grid { grid-template-columns: 1fr !important; }
+
+  /* Benefits / Steps */
+  .benefits-grid { grid-template-columns: 1fr !important; }
+  .steps-grid    { grid-template-columns: 1fr 1fr !important; }
+
+  /* Register form */
+  .register-wrap { padding: 1.5rem 1.1rem !important; border-radius: 18px !important; }
+  .form-row { grid-template-columns: 1fr !important; }
+
+  /* Visit grid single column */
+  .visit-grid { grid-template-columns: 1fr !important; }
+
+  /* Footer grid */
+  .footer-inner {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-/* CTA button */
-.hero-cta-btn {
-  font-size: 1.3rem !important;
-  padding: 1rem 2.5rem !important;
-  border-radius: 60px !important;
-  display: inline-block !important;
-  width: auto !important;
-}
-
-/* ── Section shared ──────────────────────────────────────────── */
-.section-tag   { font-size: 0.85rem; }
-.section-title { font-size: clamp(1.5rem, 4vw, 2.8rem); }
-
-.programs-section,
-.why-section,
-.gallery-section,
-.info-section,
-.form-section {
-  padding: 4rem 2rem;
-}
-
-/* ── Program cards ───────────────────────────────────────────── */
-.program-card  { padding: 2rem; }
-.program-emoji { font-size: 3.5rem; }
-.program-name  { font-size: 1.2rem; }
-.program-desc  { font-size: 0.9rem; }
-
-/* ── Why cards ───────────────────────────────────────────────── */
-.why-card-title { font-size: 1.1rem; }
-.why-card-desc  { font-size: 0.9rem; }
-
-/* ── Form ────────────────────────────────────────────────────── */
-.form-container { padding: 3rem; border-radius: 32px; }
-.form-title     { font-size: 2rem; }
-.form-subtitle  { font-size: 1rem; }
-.form-label     { font-size: 1rem; }
-.form-input     { font-size: 1rem !important; padding: 0.9rem 1.2rem !important; }
-.checkbox-grid  { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-.sibling-grid   { grid-template-columns: 1fr 1fr; }
-.submit-btn     { font-size: 1.2rem !important; padding: 1.1rem !important; }
-
-/* ── Footer ──────────────────────────────────────────────────── */
-.footer-logo { height: 64px; }
-.footer-main { font-size: 0.95rem; }
-.footer-sub  { font-size: 0.85rem; }
-.footer-copy { font-size: 0.78rem; }
-
-
-/* ════════════════════════════════════════════════════════════════
-   TABLET  ≤ 900px
-════════════════════════════════════════════════════════════════ */
-@media (max-width: 900px) {
-  .hero-images-row      { gap: 1rem !important; }
-  .hero-img-placeholder { width: 110px !important; height: 110px !important; }
-}
-
-/* ════════════════════════════════════════════════════════════════
-   MOBILE  ≤ 600px
-════════════════════════════════════════════════════════════════ */
-@media (max-width: 600px) {
-  /* Marquee */
-  .marquee-item { font-size: 0.85rem; padding: 0 1rem; }
-
-  /* Hero */
-  .hero-section {
-    padding: 2rem 1rem 1.5rem !important;
-    min-height: auto !important;
-  }
-  .hero-logo { height: 62px !important; }
-
-  .hero-badge {
-    font-size: 0.72rem !important;
-    letter-spacing: 0.3px !important;
-    padding: 0.35rem 0.85rem !important;
-  }
-
-  .hero-emoji-row {
-    font-size: 1.3rem !important;
-    letter-spacing: 0.08rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .hero-subtitle {
-    font-size: 0.9rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  /* Pills — compact row, all 3 visible */
-  .hero-pills-row {
-    gap: 0.4rem !important;
-    margin-bottom: 1.25rem !important;
-  }
-  .hero-stat-pill {
-    font-size: 0.78rem !important;
-    padding: 0.35rem 0.75rem !important;
-    gap: 0.3rem !important;
-  }
-
-  /* CTA — full width, bold tap target */
-  .hero-cta-btn {
-    display: block !important;
-    width: 100% !important;
-    font-size: 1.1rem !important;
-    padding: 0.95rem 1rem !important;
-    border-radius: 16px !important;
-    text-align: center !important;
-    box-sizing: border-box !important;
-  }
-
-  .hero-images-row      { gap: 0.6rem !important; }
-  .hero-img-placeholder { width: 80px !important; height: 80px !important; }
-
-  /* Sections */
-  .programs-section,
-  .why-section,
-  .gallery-section,
-  .info-section { padding: 2.5rem 1rem; }
-  .form-section { padding: 2rem 0.75rem 3rem; }
-
-  .section-tag   { font-size: 0.75rem; }
-  .section-title { font-size: clamp(1.3rem, 5vw, 1.9rem); }
-
-  /* Program cards */
-  .program-card  { padding: 1.25rem; }
-  .program-emoji { font-size: 2.8rem; }
-  .program-name  { font-size: 1.05rem; }
-  .program-desc  { font-size: 0.85rem; }
-
-  /* Why cards */
-  .why-card-title { font-size: 1rem; }
-  .why-card-desc  { font-size: 0.85rem; }
-
-  /* Form */
-  .form-container { padding: 1.5rem 1rem !important; border-radius: 20px !important; }
-  .form-title     { font-size: 1.4rem !important; }
-  .form-subtitle  { font-size: 0.88rem !important; }
-  .form-label     { font-size: 0.92rem !important; }
-  .form-input     { font-size: 0.95rem !important; padding: 0.75rem 0.9rem !important; }
-  .checkbox-grid  { grid-template-columns: 1fr !important; }
-  .sibling-grid   { grid-template-columns: 1fr !important; }
-  .submit-btn     { font-size: 1.05rem !important; padding: 0.9rem !important; }
-
-  /* Footer */
-  .footer-logo { height: 48px !important; }
-  .footer-main { font-size: 0.85rem; }
-  .footer-sub  { font-size: 0.75rem; }
-}
-
-/* ════════════════════════════════════════════════════════════════
-   TINY  ≤ 380px
-════════════════════════════════════════════════════════════════ */
-@media (max-width: 380px) {
-  .hero-logo            { height: 52px !important; }
-  .hero-emoji-row       { font-size: 1.1rem !important; }
-  .hero-stat-pill       { font-size: 0.72rem !important; padding: 0.3rem 0.6rem !important; }
-  .hero-img-placeholder { width: 65px !important; height: 65px !important; }
-  .form-container       { padding: 1.1rem 0.75rem !important; }
+/* ═══════════════════════════════════════════════════════════
+   TINY  ≤ 400px
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 400px) {
+  .exam-grid  { grid-template-columns: 1fr !important; }
+  .steps-grid { grid-template-columns: 1fr !important; }
 }

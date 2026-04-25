@@ -1,102 +1,145 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const PHOTOS = ['Activity Photo 1', 'Activity Photo 2', 'Activity Photo 3', 'Activity Photo 4'];
+const LKG_UKG = [
+  'Alphabet Recognition',
+  'Numbers',
+  'Shapes & Colors',
+  'Simple Logical Thinking',
+];
 
-function GalleryItem({ label }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      className="reveal"
-      style={{
-        ...styles.placeholder,
-        borderColor: hovered ? 'var(--sky-blue)' : '#ccc',
-        background: hovered
-          ? 'linear-gradient(135deg, var(--light-blue), #e3f2fd)'
-          : 'linear-gradient(135deg, #f0f0f0, #e0e0e0)',
-        color: hovered ? 'var(--sky-blue)' : '#aaa',
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <span style={styles.inner}>
-        <span style={{ fontSize: '2rem' }}>🖼️</span>
-        {label}
-      </span>
-    </div>
-  );
-}
+const CLASS_1_5 = [
+  'Mathematics',
+  'English',
+  'Logical Reasoning',
+];
 
 export default function Gallery() {
-  const sectionRef = useRef(null);
+  const ref = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
       { threshold: 0.1 }
     );
-    const els = sectionRef.current?.querySelectorAll('.reveal');
-    els?.forEach(el => observer.observe(el));
-    return () => observer.disconnect();
+    ref.current?.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    return () => io.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className="gallery-section" style={styles.section}>
+    <section ref={ref} id="syllabus" className="section syllabus-section" style={styles.section}>
       <div className="reveal" style={styles.header}>
-        <span className="section-tag" style={styles.tag}>📸 Glimpses</span>
-        <h2 className="section-title" style={styles.title}>Moments of Joy!</h2>
+        <span className="section-tag" style={styles.tag}>📚 Subjects & Syllabus</span>
+        <h2 className="section-title" style={styles.title}>What will the exam cover?</h2>
+        <p style={styles.subtitle}>
+          Age-appropriate and stress-free assessments designed for young learners.
+        </p>
       </div>
-      <div style={styles.grid}>
-        {PHOTOS.map((label) => <GalleryItem key={label} label={label} />)}
+
+      <div className="syllabus-grid" style={styles.grid}>
+        <Card
+          title="L.K.G & U.K.G"
+          accent="var(--brand-red)"
+          items={LKG_UKG}
+          footer="Activity-based, no pressure — just fun & simple questions."
+        />
+        <Card
+          title="Class 1 to 5"
+          accent="var(--brand-blue)"
+          items={CLASS_1_5}
+          footer="Core fundamentals with reasoning to bring out the best in your child."
+        />
       </div>
     </section>
   );
 }
 
+function Card({ title, accent, items, footer }) {
+  return (
+    <div className="reveal syllabus-card" style={styles.card}>
+      <div style={{ ...styles.cardHeader, color: accent, borderBottomColor: accent }}>
+        {title}
+      </div>
+      <ul style={styles.list}>
+        {items.map((it) => (
+          <li key={it} style={styles.item}>
+            <span style={{ ...styles.dot, background: accent }} />
+            {it}
+          </li>
+        ))}
+      </ul>
+      <div style={styles.footer}>{footer}</div>
+    </div>
+  );
+}
+
 const styles = {
-  section: { padding: '4rem 2rem', background: 'var(--soft-white)' },
-  header: { textAlign: 'center', marginBottom: '3rem' },
+  section: { padding: '4.5rem 1.5rem', background: 'var(--bg)' },
+  header: { textAlign: 'center', maxWidth: 720, margin: '0 auto 2.5rem' },
   tag: {
     display: 'inline-block',
-    background: 'var(--mint)',
-    color: 'var(--grass-green)',
-    padding: '0.4rem 1.2rem',
-    borderRadius: '30px',
-    fontFamily: "'Fredoka', sans-serif",
+    background: 'var(--brand-blue-soft)',
+    color: 'var(--brand-blue)',
+    padding: '0.4rem 1rem',
+    borderRadius: 999,
     fontWeight: 600,
-    fontSize: '0.85rem',
-    marginBottom: '1rem',
+    fontSize: '0.82rem',
+    marginBottom: '0.75rem',
     letterSpacing: '0.5px',
   },
   title: {
-    fontFamily: "'Baloo 2', cursive",
-    fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: 'clamp(1.75rem, 4vw, 2.6rem)',
     fontWeight: 800,
-    color: 'var(--dark-brown)',
-    display: 'block',
+    color: 'var(--ink)',
+    letterSpacing: '-0.5px',
+    marginBottom: '0.5rem',
   },
+  subtitle: { color: 'var(--muted)', fontSize: '1rem' },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
     gap: '1.5rem',
     maxWidth: 1100,
     margin: '0 auto',
   },
-  placeholder: {
-    height: 200,
-    borderRadius: 24,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    border: '3px dashed',
-    fontWeight: 600,
-    fontSize: '0.95rem',
-    transition: 'all 0.3s ease',
-    cursor: 'pointer',
+  card: {
+    background: 'white',
+    border: '1px solid var(--line)',
+    borderRadius: 20,
+    overflow: 'hidden',
+    paddingTop: '0.25rem',
+    boxShadow: '0 10px 30px rgba(15,23,42,0.05)',
   },
-  inner: {
+  cardHeader: {
+    padding: '1.1rem 1.5rem 0.75rem',
+    fontWeight: 800,
+    fontSize: '1rem',
+    letterSpacing: '1.2px',
+    textTransform: 'uppercase',
+    borderBottom: '2px solid',
+    margin: '0 1.5rem',
+  },
+  list: {
+    listStyle: 'none',
+    padding: '1.25rem 1.5rem 0.5rem',
+    margin: 0,
+  },
+  item: {
+    padding: '0.55rem 0',
+    fontSize: '1rem',
+    color: 'var(--ink-soft)',
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
-    gap: '0.5rem',
+    gap: '0.7rem',
+  },
+  dot: {
+    width: 8, height: 8, borderRadius: '50%', display: 'inline-block',
+  },
+  footer: {
+    padding: '0.9rem 1.5rem 1.25rem',
+    fontSize: '0.85rem',
+    color: 'var(--muted)',
+    borderTop: '1px dashed var(--line)',
+    marginTop: '0.5rem',
   },
 };

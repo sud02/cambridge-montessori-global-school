@@ -1,24 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const PROGRAMS = [
-  { value: 'abacus',       label: '🧠 Abacus / Brain Dev' },
-  { value: 'speaking',     label: '🗣️ Public Speaking' },
-  { value: 'yoga',         label: '🧘 Yoga & Meditation' },
-  { value: 'games',        label: '⚽ Indoor & Outdoor Games' },
-  { value: 'music',        label: '🎶 Music' },
-  { value: 'dance',        label: '💃 Dance' },
-  { value: 'storytelling', label: '📚 Storytelling & Reading' },
+const CLASSES = [
+  'L.K.G', 'U.K.G',
+  'Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5',
 ];
 
 const INITIAL_FORM = {
-  childName: '',
+  studentName: '',
   parentName: '',
-  age: '',
+  studentClass: '',
   mobile: '',
-  programs: [],
-  hasSiblings: null,
-  siblingName: '',
-  siblingAge: '',
+  email: '',
+  previousSchool: '',
+  agreed: false,
 };
 
 export default function EnrollForm({ onSubmitSuccess }) {
@@ -29,42 +23,26 @@ export default function EnrollForm({ onSubmitSuccess }) {
   const [focused, setFocused] = useState('');
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
       { threshold: 0.1 }
     );
-    const els = sectionRef.current?.querySelectorAll('.reveal');
-    els?.forEach(el => observer.observe(el));
-    return () => observer.disconnect();
+    sectionRef.current?.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    return () => io.disconnect();
   }, []);
 
   const handleInput = (field) => (e) =>
     setForm((f) => ({ ...f, [field]: e.target.value }));
 
-  const toggleProgram = (value) =>
-    setForm((f) => ({
-      ...f,
-      programs: f.programs.includes(value)
-        ? f.programs.filter((v) => v !== value)
-        : [...f.programs, value],
-    }));
-
-  const selectSibling = (choice) =>
-    setForm((f) => ({
-      ...f,
-      hasSiblings: choice,
-      siblingName: choice === 'no' ? '' : f.siblingName,
-      siblingAge:  choice === 'no' ? '' : f.siblingAge,
-    }));
-
   const validate = () => {
     const e = {};
-    if (!form.childName.trim())     e.childName   = "Child's name is required";
-    if (!form.parentName.trim())    e.parentName  = "Parent's name is required";
-    if (!form.age)                  e.age         = 'Age is required';
-    if (!form.mobile.trim())        e.mobile      = 'Mobile number is required';
-    if (form.programs.length === 0) e.programs    = 'Please select at least one program';
-    if (form.hasSiblings === null)  e.hasSiblings = 'Please select an option';
+    if (!form.studentName.trim())  e.studentName  = "Student's name is required";
+    if (!form.parentName.trim())   e.parentName   = "Parent's name is required";
+    if (!form.studentClass)        e.studentClass = 'Please select class';
+    if (!form.mobile.trim())       e.mobile       = 'Mobile number is required';
+    else if (!/^[6-9]\d{9}$/.test(form.mobile.trim())) e.mobile = 'Enter a valid 10-digit mobile';
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = 'Enter a valid email';
+    if (!form.agreed)              e.agreed       = 'Please agree to the terms';
     return e;
   };
 
@@ -74,182 +52,152 @@ export default function EnrollForm({ onSubmitSuccess }) {
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
 
-    // ── FORM SUBMISSION PLACEHOLDER ────────────────────────────────
-    // TODO: Replace with actual API call, e.g.:
-    //   const response = await fetch('/api/enroll', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(form),
-    //   });
-    //   const data = await response.json();
-    console.log('Form submission payload:', form);
+    // TODO: Replace with real API call
+    console.log('Registration payload:', form);
 
     setSubmitted(true);
-    onSubmitSuccess();
-    setTimeout(() => { setSubmitted(false); setForm(INITIAL_FORM); }, 3000);
+    onSubmitSuccess?.();
+    setTimeout(() => { setSubmitted(false); setForm(INITIAL_FORM); }, 3500);
   };
 
   const inputStyle = (name) => ({
     ...styles.input,
-    borderColor: errors[name] ? '#e53935' : focused === name ? 'var(--sky-blue)' : '#E8E0D8',
-    boxShadow: focused === name ? '0 0 0 4px rgba(110,198,255,0.2)' : 'none',
-    background: focused === name ? 'white' : '#FAFAFA',
+    borderColor: errors[name] ? '#dc2626' : focused === name ? 'var(--brand-blue)' : 'var(--line)',
+    boxShadow: focused === name ? '0 0 0 4px rgba(30,58,138,0.10)' : 'none',
+    background: 'white',
   });
 
   return (
-    <section ref={sectionRef} id="enroll" className="form-section" style={styles.section}>
-      <div className="reveal form-container" style={styles.container}>
-        <div style={styles.decorCircle} />
-
-        <div style={styles.formHeader}>
-          <h2 className="form-title" style={styles.formTitle}>📝 Enroll Your Child</h2>
-          <p className="form-subtitle" style={styles.formSubtitle}>
-            Fill in the details below to confirm registration
+    <section ref={sectionRef} id="register" className="section register-section" style={styles.section}>
+      <div className="reveal register-wrap" style={styles.wrap}>
+        <div style={styles.header}>
+          <span className="section-tag" style={styles.tag}>📝 Register for Scholarship Exam</span>
+          <h2 className="section-title" style={styles.title}>Register Your Child</h2>
+          <p style={styles.subtitle}>
+            Fill in the details to register for Scholarship Exam 2026.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate>
-          <FormGroup label="Child's Name" required error={errors.childName}>
-            <input
-              type="text"
-              placeholder="Enter child's full name"
-              value={form.childName}
-              onChange={handleInput('childName')}
-              onFocus={() => setFocused('childName')}
-              onBlur={() => setFocused('')}
-              className="form-input"
-              style={inputStyle('childName')}
-            />
-          </FormGroup>
+        <form onSubmit={handleSubmit} noValidate className="register-form" style={styles.form}>
+          <div className="form-row" style={styles.row}>
+            <Field label="Student Name" icon="👤" required error={errors.studentName}>
+              <input
+                type="text"
+                placeholder="Enter student name"
+                value={form.studentName}
+                onChange={handleInput('studentName')}
+                onFocus={() => setFocused('studentName')}
+                onBlur={() => setFocused('')}
+                className="form-input"
+                style={inputStyle('studentName')}
+              />
+            </Field>
 
-          <FormGroup label="Parent's Name" required error={errors.parentName}>
-            <input
-              type="text"
-              placeholder="Enter parent/guardian name"
-              value={form.parentName}
-              onChange={handleInput('parentName')}
-              onFocus={() => setFocused('parentName')}
-              onBlur={() => setFocused('')}
-              className="form-input"
-              style={inputStyle('parentName')}
-            />
-          </FormGroup>
+            <Field label="Parent Name" icon="👨‍👩‍👧" required error={errors.parentName}>
+              <input
+                type="text"
+                placeholder="Enter parent name"
+                value={form.parentName}
+                onChange={handleInput('parentName')}
+                onFocus={() => setFocused('parentName')}
+                onBlur={() => setFocused('')}
+                className="form-input"
+                style={inputStyle('parentName')}
+              />
+            </Field>
+          </div>
 
-          <FormGroup label="Age of the Child" required error={errors.age}>
-            <input
-              type="number"
-              placeholder="e.g. 8"
-              min={3} max={18}
-              value={form.age}
-              onChange={handleInput('age')}
-              onFocus={() => setFocused('age')}
-              onBlur={() => setFocused('')}
-              className="form-input"
-              style={inputStyle('age')}
-            />
-          </FormGroup>
+          <div className="form-row" style={styles.row}>
+            <Field label="Class" icon="🏫" required error={errors.studentClass}>
+              <select
+                value={form.studentClass}
+                onChange={handleInput('studentClass')}
+                onFocus={() => setFocused('studentClass')}
+                onBlur={() => setFocused('')}
+                className="form-input"
+                style={{ ...inputStyle('studentClass'), appearance: 'auto' }}
+              >
+                <option value="">Select Class</option>
+                {CLASSES.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </Field>
 
-          <FormGroup label="Mobile No" required error={errors.mobile}>
-            <input
-              type="tel"
-              placeholder="Enter mobile number"
-              value={form.mobile}
-              onChange={handleInput('mobile')}
-              onFocus={() => setFocused('mobile')}
-              onBlur={() => setFocused('')}
-              className="form-input"
-              style={inputStyle('mobile')}
-            />
-          </FormGroup>
+            <Field label="Mobile Number" icon="📱" required error={errors.mobile}>
+              <input
+                type="tel"
+                inputMode="numeric"
+                placeholder="Enter mobile number"
+                value={form.mobile}
+                onChange={handleInput('mobile')}
+                onFocus={() => setFocused('mobile')}
+                onBlur={() => setFocused('')}
+                className="form-input"
+                style={inputStyle('mobile')}
+              />
+            </Field>
+          </div>
 
-          <FormGroup label="Programs Interested 🎯" required error={errors.programs}>
-            <div className="checkbox-grid" style={styles.checkboxGrid}>
-              {PROGRAMS.map((p) => {
-                const checked = form.programs.includes(p.value);
-                return (
-                  <div
-                    key={p.value}
-                    onClick={() => toggleProgram(p.value)}
-                    style={{
-                      ...styles.checkItem,
-                      borderColor: checked ? 'var(--grass-green)' : '#E8E0D8',
-                      background:  checked ? '#E8F5E9' : '#FAFAFA',
-                    }}
-                  >
-                    <div style={{
-                      ...styles.customCheck,
-                      background:  checked ? 'var(--grass-green)' : 'white',
-                      borderColor: checked ? 'var(--grass-green)' : '#ccc',
-                    }}>
-                      {checked && <span style={styles.checkMark}>✓</span>}
-                    </div>
-                    <span className="form-label" style={styles.checkLabel}>{p.label}</span>
-                  </div>
-                );
-              })}
+          <div className="form-row" style={styles.row}>
+            <Field label="Email ID" icon="✉️" error={errors.email}>
+              <input
+                type="email"
+                placeholder="Enter email id"
+                value={form.email}
+                onChange={handleInput('email')}
+                onFocus={() => setFocused('email')}
+                onBlur={() => setFocused('')}
+                className="form-input"
+                style={inputStyle('email')}
+              />
+            </Field>
+
+            <Field label="Previous School (Optional)" icon="🎒">
+              <input
+                type="text"
+                placeholder="Enter school name"
+                value={form.previousSchool}
+                onChange={handleInput('previousSchool')}
+                onFocus={() => setFocused('previousSchool')}
+                onBlur={() => setFocused('')}
+                className="form-input"
+                style={inputStyle('previousSchool')}
+              />
+            </Field>
+          </div>
+
+          {/* Fee info card */}
+          <div className="fee-card" style={styles.feeCard}>
+            <div>
+              <div style={styles.feeLabel}>Registration Fee</div>
+              <div style={styles.feeAmount}>₹100 <span style={styles.feeOnly}>Only</span></div>
             </div>
-          </FormGroup>
-
-          <FormGroup label="Siblings" required error={errors.hasSiblings}>
-            <div style={styles.radioGroup}>
-              {['yes', 'no'].map((val) => {
-                const selected = form.hasSiblings === val;
-                return (
-                  <div
-                    key={val}
-                    onClick={() => selectSibling(val)}
-                    style={{
-                      ...styles.radioItem,
-                      borderColor: selected ? 'var(--purple-pop)' : '#E8E0D8',
-                      background:  selected ? '#F3E5F5' : '#FAFAFA',
-                    }}
-                  >
-                    <div style={{
-                      ...styles.customRadio,
-                      borderColor: selected ? 'var(--purple-pop)' : '#ccc',
-                    }}>
-                      {selected && <div style={styles.radioDot} />}
-                    </div>
-                    <span style={styles.radioLabel}>{val === 'yes' ? 'Yes' : 'No'}</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            {form.hasSiblings === 'yes' && (
-              <div style={styles.siblingBox}>
-                <div className="sibling-grid" style={styles.siblingGrid}>
-                  <div>
-                    <label style={styles.subLabel}>Sibling's Name</label>
-                    <input
-                      type="text"
-                      placeholder="Sibling's name"
-                      value={form.siblingName}
-                      onChange={handleInput('siblingName')}
-                      onFocus={() => setFocused('siblingName')}
-                      onBlur={() => setFocused('')}
-                      className="form-input"
-                      style={inputStyle('siblingName')}
-                    />
-                  </div>
-                  <div>
-                    <label style={styles.subLabel}>Sibling's Age</label>
-                    <input
-                      type="number"
-                      placeholder="Age"
-                      min={1} max={18}
-                      value={form.siblingAge}
-                      onChange={handleInput('siblingAge')}
-                      onFocus={() => setFocused('siblingAge')}
-                      onBlur={() => setFocused('')}
-                      className="form-input"
-                      style={inputStyle('siblingAge')}
-                    />
-                  </div>
-                </div>
+            <div style={styles.qrSide}>
+              <div style={styles.qrBox}>
+                <img
+                  src="/img_src/QR.png"
+                  alt="Scan to pay registration fee"
+                  style={styles.qrImg}
+                />
               </div>
-            )}
-          </FormGroup>
+              <div style={styles.qrLabel}>Scan &amp; Pay (UPI)</div>
+            </div>
+          </div>
+
+          <label style={{
+            ...styles.agreeRow,
+            borderColor: errors.agreed ? '#dc2626' : 'var(--line)',
+          }}>
+            <input
+              type="checkbox"
+              checked={form.agreed}
+              onChange={(e) => setForm(f => ({ ...f, agreed: e.target.checked }))}
+              style={styles.checkbox}
+            />
+            <span style={styles.agreeText}>
+              I agree to the <a href="#terms" style={styles.link}>terms &amp; conditions</a>.
+            </span>
+          </label>
+          {errors.agreed && <p style={styles.errorText}>{errors.agreed}</p>}
 
           <button
             type="submit"
@@ -257,36 +205,29 @@ export default function EnrollForm({ onSubmitSuccess }) {
             className="submit-btn"
             style={{
               ...styles.submitBtn,
-              background: submitted
-                ? 'linear-gradient(135deg, #4CAF50, #66BB6A)'
-                : 'linear-gradient(135deg, var(--coral-orange), #FF8A50)',
+              background: submitted ? 'var(--success)' : 'var(--brand-blue)',
               cursor: submitted ? 'default' : 'pointer',
             }}
-            onMouseEnter={e => {
-              if (!submitted) {
-                e.currentTarget.style.transform = 'translateY(-3px)';
-                e.currentTarget.style.boxShadow = '0 10px 35px rgba(255,107,53,0.45)';
-              }
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 6px 25px rgba(255,107,53,0.3)';
-            }}
           >
-            {submitted ? '✅ Registered Successfully!' : '🚀 Register Now!'}
+            {submitted ? '✅ Submitted Successfully!' : 'Submit & Register'}
           </button>
+
+          <p style={styles.smallNote}>
+            After successful registration, you'll receive a confirmation on WhatsApp / SMS.
+          </p>
         </form>
       </div>
     </section>
   );
 }
 
-function FormGroup({ label, required, error, children }) {
+function Field({ label, icon, required, error, children }) {
   return (
-    <div style={styles.formGroup}>
-      <label className="form-label" style={styles.label}>
+    <div style={styles.field}>
+      <label className="form-label" style={styles.fieldLabel}>
+        <span style={styles.fieldIcon}>{icon}</span>
         {label}
-        {required && <span style={{ color: 'var(--coral-orange)', marginLeft: 2 }}>*</span>}
+        {required && <span style={styles.req}>*</span>}
       </label>
       {children}
       {error && <p style={styles.errorText}>{error}</p>}
@@ -296,140 +237,156 @@ function FormGroup({ label, required, error, children }) {
 
 const styles = {
   section: {
-    padding: '4rem 2rem 5rem',
-    background: 'linear-gradient(180deg, var(--light-blue) 0%, var(--cream) 100%)',
+    padding: '4.5rem 1.5rem',
+    background: 'var(--bg)',
     position: 'relative',
   },
-  container: {
-    maxWidth: 720,
+  wrap: {
+    maxWidth: 920,
     margin: '0 auto',
     background: 'white',
-    borderRadius: 32,
-    padding: '3rem',
-    boxShadow: '0 8px 40px rgba(0,0,0,0.08)',
-    position: 'relative',
-    overflow: 'hidden',
+    border: '1px solid var(--line)',
+    borderRadius: 22,
+    padding: '2.5rem 2rem',
+    boxShadow: '0 18px 50px rgba(15,23,42,0.06)',
   },
-  decorCircle: {
-    position: 'absolute',
-    top: -60, right: -60,
-    width: 150, height: 150,
-    background: 'var(--sun-yellow)',
-    borderRadius: '50%',
-    opacity: 0.15,
-    pointerEvents: 'none',
+  header: { textAlign: 'center', marginBottom: '2rem' },
+  tag: {
+    display: 'inline-block',
+    background: 'var(--brand-blue-soft)',
+    color: 'var(--brand-blue)',
+    padding: '0.4rem 1rem',
+    borderRadius: 999,
+    fontWeight: 600,
+    fontSize: '0.82rem',
+    marginBottom: '0.75rem',
+    letterSpacing: '0.5px',
   },
-  formHeader: { textAlign: 'center', marginBottom: '2.5rem', position: 'relative', zIndex: 1 },
-  formTitle: {
-    fontFamily: "'Baloo 2', cursive",
-    fontSize: '2rem',
+  title: {
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: 'clamp(1.6rem, 4vw, 2.3rem)',
     fontWeight: 800,
-    color: 'var(--dark-brown)',
-    marginBottom: '0.5rem',
+    color: 'var(--ink)',
+    marginBottom: '0.35rem',
+    letterSpacing: '-0.5px',
   },
-  formSubtitle: { color: '#8D6E63', fontSize: '1rem' },
-  formGroup: { marginBottom: '1.5rem', position: 'relative', zIndex: 1 },
-  label: {
-    display: 'block',
-    fontFamily: "'Fredoka', sans-serif",
-    fontWeight: 600,
-    fontSize: '1rem',
-    color: 'var(--dark-brown)',
-    marginBottom: '0.5rem',
+  subtitle: { color: 'var(--muted)', fontSize: '0.95rem' },
+  form: {},
+  row: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '1rem',
+    marginBottom: '1rem',
   },
-  subLabel: {
-    display: 'block',
-    fontFamily: "'Fredoka', sans-serif",
-    fontWeight: 600,
+  field: { display: 'flex', flexDirection: 'column' },
+  fieldLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
     fontSize: '0.9rem',
-    color: 'var(--dark-brown)',
+    fontWeight: 600,
+    color: 'var(--ink-soft)',
     marginBottom: '0.4rem',
   },
+  fieldIcon: {
+    width: 24,
+    textAlign: 'center',
+    fontSize: '0.95rem',
+  },
+  req: { color: 'var(--brand-red)', marginLeft: 2 },
   input: {
     width: '100%',
-    padding: '0.9rem 1.2rem',
-    border: '2.5px solid #E8E0D8',
-    borderRadius: 16,
-    fontFamily: "'Quicksand', sans-serif",
-    fontSize: '1rem',
+    padding: '0.85rem 1rem',
+    border: '1.5px solid var(--line)',
+    borderRadius: 10,
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: '0.95rem',
     fontWeight: 500,
     outline: 'none',
-    color: 'var(--dark-brown)',
-    transition: 'all 0.3s ease',
+    color: 'var(--ink)',
+    transition: 'all 0.2s ease',
   },
-  checkboxGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-    gap: '0.75rem',
-  },
-  checkItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.75rem',
-    padding: '0.8rem 1rem',
-    border: '2.5px solid',
+  feeCard: {
+    marginTop: '1.25rem',
+    marginBottom: '1rem',
+    padding: '1.25rem',
+    background: 'var(--brand-blue-soft)',
+    border: '1px solid rgba(30,58,138,0.15)',
     borderRadius: 16,
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    userSelect: 'none',
-  },
-  customCheck: {
-    width: 22, height: 22,
-    border: '2.5px solid',
-    borderRadius: 6,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    transition: 'all 0.3s ease',
+    justifyContent: 'space-between',
+    gap: '1rem',
   },
-  checkMark: { color: 'white', fontWeight: 700, fontSize: '0.85rem' },
-  checkLabel: { fontWeight: 500, fontSize: '0.95rem', color: 'var(--dark-brown)' },
-  radioGroup: { display: 'flex', gap: '1rem', flexWrap: 'wrap' },
-  radioItem: {
+  feeLabel: {
+    fontSize: '0.82rem',
+    fontWeight: 700,
+    color: 'var(--brand-blue)',
+    letterSpacing: '1.5px',
+  },
+  feeAmount: {
+    fontSize: '2rem',
+    fontWeight: 800,
+    color: 'var(--ink)',
+    lineHeight: 1,
+    marginTop: 4,
+  },
+  feeOnly: { fontSize: '0.95rem', fontWeight: 600, color: 'var(--muted)' },
+  qrSide: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 },
+  qrBox: {
+    width: 68, height: 68,
+    background: 'white',
+    border: '1px solid var(--line)',
+    borderRadius: 8,
+    padding: 4,
+  },
+  qrPattern: {
+    width: '100%', height: '100%',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(6, 1fr)',
+    gap: 1,
+  },
+  qrDot: { width: '100%', height: '100%', borderRadius: 1 },
+  qrLabel: { fontSize: '0.72rem', color: 'var(--muted)', fontWeight: 600 },
+
+  agreeRow: {
     display: 'flex',
     alignItems: 'center',
     gap: '0.6rem',
-    padding: '0.7rem 1.5rem',
-    border: '2.5px solid',
-    borderRadius: 16,
+    padding: '0.7rem 1rem',
+    border: '1.5px solid var(--line)',
+    borderRadius: 10,
     cursor: 'pointer',
-    transition: 'all 0.3s ease',
     userSelect: 'none',
   },
-  customRadio: {
-    width: 20, height: 20,
-    border: '2.5px solid',
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'all 0.3s ease',
-  },
-  radioDot: { width: 10, height: 10, background: 'var(--purple-pop)', borderRadius: '50%' },
-  radioLabel: { fontWeight: 500, fontSize: '1rem', color: 'var(--dark-brown)' },
-  siblingBox: {
-    marginTop: '1rem',
-    padding: '1.5rem',
-    background: '#FFF8E1',
-    borderRadius: 16,
-    border: '2px dashed var(--sun-yellow)',
-  },
-  siblingGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' },
+  checkbox: { width: 16, height: 16, accentColor: 'var(--brand-blue)' },
+  agreeText: { fontSize: '0.9rem', color: 'var(--ink-soft)' },
+  link: { color: 'var(--brand-blue)', fontWeight: 600, textDecoration: 'underline' },
+
   submitBtn: {
     width: '100%',
-    padding: '1.1rem',
+    marginTop: '1rem',
     color: 'white',
     border: 'none',
-    borderRadius: 20,
-    fontFamily: "'Fredoka', sans-serif",
-    fontSize: '1.2rem',
+    borderRadius: 12,
+    padding: '1rem',
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: '1.05rem',
     fontWeight: 700,
-    boxShadow: '0 6px 25px rgba(255,107,53,0.3)',
-    marginTop: '1rem',
-    transition: 'all 0.3s ease',
-    position: 'relative',
-    zIndex: 1,
+    letterSpacing: '0.3px',
+    boxShadow: '0 10px 26px rgba(30,58,138,0.25)',
+    transition: 'all 0.2s ease',
   },
-  errorText: { color: '#e53935', fontSize: '0.82rem', marginTop: '0.3rem', fontWeight: 600 },
+  smallNote: {
+    textAlign: 'center',
+    fontSize: '0.82rem',
+    color: 'var(--muted)',
+    marginTop: '0.9rem',
+  },
+  errorText: {
+    color: '#dc2626',
+    fontSize: '0.8rem',
+    marginTop: '0.3rem',
+    fontWeight: 600,
+  },
 };
