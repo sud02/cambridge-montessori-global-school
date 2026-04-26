@@ -69,6 +69,30 @@ export default function EnrollForm({ onSubmitSuccess }) {
 
   const handleEnquire = () => {
     if (!enquiryReady) return;
+
+    // Log the enquiry into the same sheet (extra column `enquired=Yes`).
+    // Fire-and-forget — we don't block the WhatsApp window-open on it.
+    if (SHEETS_ENDPOINT) {
+      const payload = new URLSearchParams();
+      payload.set('submittedAt',    new Date().toISOString());
+      payload.set('studentName',    form.studentName);
+      payload.set('parentName',     form.parentName);
+      payload.set('class',          form.studentClass);
+      payload.set('mobile',         form.mobile);
+      payload.set('email',          form.email || '');
+      payload.set('previousSchool', form.previousSchool || '');
+      payload.set('paymentProofName', '');
+      payload.set('paymentProofUrl',  '');
+      payload.set('enquired',         'Yes');
+
+      fetch(SHEETS_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: payload.toString(),
+      }).catch((err) => console.error('[CMG] Enquiry log failed:', err));
+    }
+
     const lines = [
       'Hi, I would like to enquire about the Scholarship Exam 2026.',
       '',

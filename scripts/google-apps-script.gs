@@ -29,6 +29,7 @@ const HEADERS = [
   'previousSchool',
   'paymentProofName',
   'paymentProofUrl',
+  'enquired',
 ];
 
 function doPost(e) {
@@ -46,6 +47,7 @@ function doPost(e) {
       p.previousSchool   || '',
       p.paymentProofName || '',
       p.paymentProofUrl  || '',
+      p.enquired         || '',
     ]);
 
     return ContentService
