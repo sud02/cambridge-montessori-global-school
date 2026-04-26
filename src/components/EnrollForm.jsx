@@ -65,13 +65,14 @@ export default function EnrollForm({ onSubmitSuccess }) {
     setErrors({});
 
     setSending(true);
-    try {
-      // 1) If a proof screenshot was attached, upload it directly to Vercel Blob
-      //    via the /api/upload-proof handshake. We get back a public URL.
-      let proofUrl = '';
-      let proofName = '';
-      if (form.paymentProof) {
+
+    // Step 1 — Upload proof to Vercel Blob (if attached). Errors here are fatal.
+    let proofUrl = '';
+    let proofName = '';
+    if (form.paymentProof) {
+      try {
         const safeName = `proofs/${Date.now()}-${form.paymentProof.name.replace(/[^\w.-]+/g, '_')}`;
+        console.log('[CMG] Uploading proof to Blob…', safeName, form.paymentProof);
         const blob = await upload(safeName, form.paymentProof, {
           access: 'public',
           handleUploadUrl: PROOF_UPLOAD_ROUTE,
@@ -79,40 +80,51 @@ export default function EnrollForm({ onSubmitSuccess }) {
         });
         proofUrl  = blob.url;
         proofName = form.paymentProof.name;
+        console.log('[CMG] Blob upload OK:', proofUrl);
+      } catch (err) {
+        console.error('[CMG] Blob upload FAILED:', err);
+        setErrors((er) => ({ ...er, _submit: 'Could not upload proof screenshot. Please try again or skip the proof.' }));
+        setSending(false);
+        return;
       }
+    }
 
-      // 2) POST the form data + proof URL to the Google Sheets webhook.
-      const payload = new URLSearchParams();
-      payload.set('submittedAt',    new Date().toISOString());
-      payload.set('studentName',    form.studentName);
-      payload.set('parentName',     form.parentName);
-      payload.set('class',          form.studentClass);
-      payload.set('mobile',         form.mobile);
-      payload.set('email',          form.email || '');
-      payload.set('previousSchool', form.previousSchool || '');
-      payload.set('paymentProofName', proofName);
-      payload.set('paymentProofUrl',  proofUrl);
+    // Step 2 — POST text fields + URL to Apps Script. Failure here is non-fatal:
+    // we still flag the form as submitted (the row may have been written; mode:no-cors
+    // hides the response). User keeps a confirmation; we log for diagnosis.
+    const payload = new URLSearchParams();
+    payload.set('submittedAt',      new Date().toISOString());
+    payload.set('studentName',      form.studentName);
+    payload.set('parentName',       form.parentName);
+    payload.set('class',            form.studentClass);
+    payload.set('mobile',           form.mobile);
+    payload.set('email',            form.email || '');
+    payload.set('previousSchool',   form.previousSchool || '');
+    payload.set('paymentProofName', proofName);
+    payload.set('paymentProofUrl',  proofUrl);
 
-      if (SHEETS_ENDPOINT) {
-        await fetch(SHEETS_ENDPOINT, {
+    console.log('[CMG] Submitting to Sheets:', Object.fromEntries(payload), 'endpoint:', SHEETS_ENDPOINT || '(unset)');
+
+    if (SHEETS_ENDPOINT) {
+      try {
+        const resp = await fetch(SHEETS_ENDPOINT, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: payload.toString(),
         });
-      } else {
-        console.warn('SHEETS_ENDPOINT not set — skipping POST. Payload:', Object.fromEntries(payload));
+        console.log('[CMG] Sheets POST returned (opaque ok):', resp.type, resp.status);
+      } catch (err) {
+        console.error('[CMG] Sheets POST FAILED:', err);
       }
-
-      setSubmitted(true);
-      onSubmitSuccess?.();
-      setTimeout(() => { setSubmitted(false); setForm(INITIAL_FORM); }, 3500);
-    } catch (err) {
-      console.error('Submission failed:', err);
-      setErrors((er) => ({ ...er, _submit: 'Could not submit. Please try again or use WhatsApp.' }));
-    } finally {
-      setSending(false);
+    } else {
+      console.warn('[CMG] SHEETS_ENDPOINT not set — skipping POST.');
     }
+
+    setSubmitted(true);
+    onSubmitSuccess?.();
+    setTimeout(() => { setSubmitted(false); setForm(INITIAL_FORM); }, 3500);
+    setSending(false);
   };
 
   const inputStyle = (name) => ({
