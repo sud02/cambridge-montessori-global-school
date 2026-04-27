@@ -85,7 +85,7 @@ export default function CampDetails() {
           <div style={styles.venueAddr}>V.V Mahal Road, Tirupati</div>
         </div>
         <a
-          href="https://maps.google.com/?q=V.V+Mahal+Road+Tirupati"
+          href="https://maps.app.goo.gl/1inRL6MUBc9bkg3j7"
           target="_blank"
           rel="noreferrer"
           className="exam-venue-btn"

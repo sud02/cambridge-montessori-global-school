@@ -26,7 +26,7 @@ export default function Footer() {
           <div style={styles.mapCard}>
             <iframe
               title="Cambridge Montessori Global School Map"
-              src="https://maps.google.com/maps?q=V.V+Mahal+Road+Tirupati&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.app.goo.gl/1inRL6MUBc9bkg3j7"
               width="100%"
               height="320"
               style={{ border: 0, display: 'block', borderRadius: 16 }}
@@ -38,12 +38,12 @@ export default function Footer() {
           <div style={styles.contactCard}>
             <h3 style={styles.contactTitle}>Contact Us</h3>
             <ContactRow icon="📍" title="Address" value="V.V Mahal Road, Tirupati" />
-            <ContactRow icon="📞" title="Phone"   value="+91 98765 43210" href="tel:+919876543210" />
-            <ContactRow icon="💬" title="WhatsApp" value="+91 98765 43210" href="https://wa.me/919876543210" />
-            <ContactRow icon="✉️" title="Email"   value="info@cmgschool.in" href="mailto:info@cmgschool.in" />
+            <ContactRow icon="📞" title="Phone"   value="+91 9109 92 9109" href="tel:+919109929109" />
+            <ContactRow icon="💬" title="WhatsApp" value="+91 9109 92 9109" href="https://wa.me/919109929109" />
+            <ContactRow icon="✉️" title="Email"   value="cmgstpty@gmail.com" href="mailto:cmgstpty@gmail.com" />
             <ContactRow icon="🌐" title="Website" value="www.cmgschool.in"  href="https://www.cmgschool.in" />
             <a
-              href="https://maps.google.com/?q=V.V+Mahal+Road+Tirupati"
+              href="https://maps.app.goo.gl/1inRL6MUBc9bkg3j7"
               target="_blank"
               rel="noreferrer"
               style={styles.directionsBtn}
@@ -86,8 +86,8 @@ export default function Footer() {
           <div>
             <div style={styles.colTitle}>Get in Touch</div>
             <div style={styles.colLine}>📍 V.V Mahal Road, Tirupati</div>
-            <div style={styles.colLine}>📞 +91 98765 43210</div>
-            <div style={styles.colLine}>✉️ info@cmgschool.in</div>
+            <div style={styles.colLine}>📞 +91 9109 92 9109</div>
+            <div style={styles.colLine}>✉️ cmgstpty@gmail.com</div>
             <div style={styles.colLine}>🌐 www.cmgschool.in</div>
           </div>
         </div>
