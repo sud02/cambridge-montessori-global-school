@@ -11,7 +11,7 @@ const TRUST_ITEMS = [
 const FEATURE_CARDS = [
   { icon: '🎓', label: 'Classes',          value: 'Class 1 to Class 7' },
   { icon: '💰', label: 'Registration Fee', value: '₹100 Only' },
-  { icon: '🏆', label: 'Win Up to',        value: '50% Scholarship' },
+  { icon: '🏆', label: 'Win Up to',        value: '50% Scholarship*' },
 ];
 
 function diff(to) {
@@ -136,6 +136,7 @@ export default function Hero() {
             </div>
           ))}
         </div>
+        <div style={styles.mConditions}>*Conditions apply</div>
 
         {/* Countdown card */}
         <div style={styles.mCountdownCard}>
@@ -425,6 +426,13 @@ const styles = {
   mFeatureIcon: { fontSize: '1.3rem', marginBottom: 2 },
   mFeatureLabel: { fontSize: '0.7rem', color: 'var(--muted)', fontWeight: 600, marginBottom: 2 },
   mFeatureValue: { fontSize: '0.78rem', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.2 },
+  mConditions: {
+    textAlign: 'center',
+    fontSize: '0.72rem',
+    color: 'var(--muted)',
+    fontWeight: 600,
+    marginTop: '-0.35rem',
+  },
 
   mCountdownCard: {
     background: 'white',

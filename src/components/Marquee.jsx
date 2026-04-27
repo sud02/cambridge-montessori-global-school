@@ -4,7 +4,7 @@ const ITEMS = [
   '🎓 Scholarship Exam 2026',
   '👶 For Class 1 to Class 7',
   '🏫 Offline at School Campus',
-  '🏆 Win up to 50% Scholarship',
+  '🏆 Win up to 50% Scholarship*',
   '💵 Registration Fee ₹100 Only',
   '⏰ Limited Seats — Register Now',
 ];

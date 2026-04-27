@@ -94,6 +94,7 @@ export default function Footer() {
 
         <div style={styles.copyBar}>
           © {new Date().getFullYear()} Cambridge Montessori Global School. All Rights Reserved.
+          <div style={styles.conditions}>*Conditions apply</div>
         </div>
       </footer>
     </>
@@ -261,5 +262,11 @@ const styles = {
     textAlign: 'center',
     color: 'rgba(255,255,255,0.6)',
     fontSize: '0.82rem',
+  },
+  conditions: {
+    marginTop: '0.35rem',
+    fontSize: '0.78rem',
+    fontWeight: 600,
+    color: 'rgba(255,255,255,0.7)',
   },
 };

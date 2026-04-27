@@ -31,7 +31,8 @@ export default function WhyUs() {
       {/* Scholarship Benefits */}
       <div className="reveal" style={styles.header}>
         <span className="section-tag" style={styles.tag}>🏆 Scholarship Benefits</span>
-        <h2 className="section-title" style={styles.title}>Win up to 50% Scholarship</h2>
+        <h2 className="section-title" style={styles.title}>Win up to 50% Scholarship*</h2>
+        <div style={styles.conditions}>*Conditions apply</div>
         <p style={styles.subtitle}>Rewarding every student — top performers, next-level scorers, and every participant.</p>
       </div>
 
@@ -91,6 +92,13 @@ const styles = {
     marginBottom: '0.5rem',
   },
   subtitle: { color: 'var(--muted)', fontSize: '1rem', lineHeight: 1.55 },
+  conditions: {
+    marginTop: '-0.15rem',
+    marginBottom: '0.75rem',
+    color: 'var(--muted)',
+    fontSize: '0.85rem',
+    fontWeight: 600,
+  },
 
   benefitsGrid: {
     display: 'grid',
