@@ -15,7 +15,7 @@ const ROWS = [
   },
   {
     label: 'Duration',
-    value: 'LKG / UKG · 20–30 mins',
+    value: '20–30 mins',
     sub: 'Class 1 to 7 · 30–45 mins',
     Icon: IconHourglass,
   },

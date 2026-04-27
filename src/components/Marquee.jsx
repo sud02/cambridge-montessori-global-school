@@ -2,7 +2,7 @@ import React from 'react';
 
 const ITEMS = [
   '🎓 Scholarship Exam 2026',
-  '👶 For L.K.G to Class 7',
+  '👶 For Class 1 to Class 7',
   '🏫 Offline at School Campus',
   '🏆 Win up to 50% Scholarship',
   '💵 Registration Fee ₹100 Only',

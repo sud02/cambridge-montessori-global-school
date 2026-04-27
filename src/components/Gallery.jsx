@@ -1,12 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 
-const LKG_UKG = [
-  'Alphabet Recognition',
-  'Numbers',
-  'Shapes & Colors',
-  'Simple Logical Thinking',
-];
-
 const CLASS_1_7 = [
   'Mathematics',
   'English',
@@ -36,12 +29,6 @@ export default function Gallery() {
       </div>
 
       <div className="syllabus-grid" style={styles.grid}>
-        <Card
-          title="L.K.G & U.K.G"
-          accent="var(--brand-red)"
-          items={LKG_UKG}
-          footer="Activity-based, no pressure — just fun & simple questions."
-        />
         <Card
           title="Class 1 to 7"
           accent="var(--brand-blue)"

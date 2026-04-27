@@ -1,10 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 
-const PRE_PRIMARY = [
-  { img: '/img_src/kid1_no_bg.png', label: 'L.K.G', color: '#fde68a', imgOriginY: '8%',  imgPosY: '4%' },
-  { img: '/img_src/kid3_no_bg.png', label: 'U.K.G', color: '#fecaca', imgOriginY: '14%', imgPosY: '8%' },
-];
-
 const PRIMARY = [
   { img: '/img_src/kid2_no_bg.png', label: 'Class 1', color: '#bfdbfe', imgOriginY: '14%', imgPosY: '8%' },
   { img: '/img_src/kid3_no_bg.png', label: 'Class 2', color: '#bbf7d0', imgOriginY: '14%', imgPosY: '8%' },
@@ -33,14 +28,12 @@ export default function Programs() {
         <span className="section-tag" style={styles.tag}>👶 Who Can Apply?</span>
         <h2 className="section-title" style={styles.title}>Classes Eligible</h2>
         <p style={styles.subtitle}>
-          Scholarship exam open for pre-primary and primary students.
+          Scholarship exam open for Class 1 to Class 7 students.
         </p>
       </div>
 
       <div className="reveal classes-wrap" style={styles.wrap}>
-        <Group heading="PRE-PRIMARY" headingColor="var(--brand-red)" items={PRE_PRIMARY} />
-        <div className="classes-divider" style={styles.divider} />
-        <Group heading="PRIMARY" headingColor="var(--brand-blue)" items={PRIMARY} />
+        <Group heading="CLASSES" headingColor="var(--brand-blue)" items={PRIMARY} />
       </div>
     </section>
   );
