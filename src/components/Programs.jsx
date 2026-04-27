@@ -7,10 +7,12 @@ const PRE_PRIMARY = [
 
 const PRIMARY = [
   { img: '/img_src/kid2_no_bg.png', label: 'Class 1', color: '#bfdbfe', imgOriginY: '14%', imgPosY: '8%' },
-  { img: '/img_src/kid4_no_bg.png', label: 'Class 2', color: '#bbf7d0', imgOriginY: '14%', imgPosY: '8%' },
+  { img: '/img_src/kid3_no_bg.png', label: 'Class 2', color: '#bbf7d0', imgOriginY: '14%', imgPosY: '8%' },
   { img: '/img_src/kid1_no_bg.png', label: 'Class 3', color: '#fde68a', imgOriginY: '8%',  imgPosY: '4%' },
-  { img: '/img_src/kid2_no_bg.png', label: 'Class 4', color: '#c7d2fe', imgOriginY: '14%', imgPosY: '8%' },
+  { img: '/img_src/kid3_no_bg.png', label: 'Class 4', color: '#c7d2fe', imgOriginY: '14%', imgPosY: '8%' },
   { img: '/img_src/kid3_no_bg.png', label: 'Class 5', color: '#fbcfe8', imgOriginY: '14%', imgPosY: '8%' },
+  { img: '/img_src/kid4_no_bg.png', label: 'Class 6', color: '#bbf7d0', imgOriginY: '14%', imgPosY: '8%' },
+  { img: '/img_src/kid1_no_bg.png', label: 'Class 7', color: '#fde68a', imgOriginY: '8%',  imgPosY: '4%' },
 ];
 
 export default function Programs() {

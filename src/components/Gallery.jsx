@@ -7,7 +7,7 @@ const LKG_UKG = [
   'Simple Logical Thinking',
 ];
 
-const CLASS_1_5 = [
+const CLASS_1_7 = [
   'Mathematics',
   'English',
   'Logical Reasoning',
@@ -43,9 +43,9 @@ export default function Gallery() {
           footer="Activity-based, no pressure — just fun & simple questions."
         />
         <Card
-          title="Class 1 to 5"
+          title="Class 1 to 7"
           accent="var(--brand-blue)"
-          items={CLASS_1_5}
+          items={CLASS_1_7}
           footer="Core fundamentals with reasoning to bring out the best in your child."
         />
       </div>

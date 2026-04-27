@@ -16,7 +16,7 @@ const ROWS = [
   {
     label: 'Duration',
     value: 'LKG / UKG · 20–30 mins',
-    sub: 'Class 1 to 5 · 30–45 mins',
+    sub: 'Class 1 to 7 · 30–45 mins',
     Icon: IconHourglass,
   },
 ];
@@ -48,8 +48,8 @@ export default function CampDetails() {
         <div style={styles.dateCard}>
           <div style={styles.dateRibbon}>EXAM DATE</div>
           <div style={styles.dateMonth}>MAY</div>
-          <div style={styles.dateDay}>25</div>
-          <div style={styles.dateMeta}>Sunday · 2026</div>
+          <div style={styles.dateDay}>9</div>
+          <div style={styles.dateMeta}>Saturday · 2026</div>
           <div style={styles.dateFoot}>
             <IconCalendar />
             <span>Mark your calendar</span>
@@ -77,7 +77,7 @@ export default function CampDetails() {
       </div>
 
       {/* Venue band */}
-      <div className="reveal" style={styles.venueCard}>
+      <div className="reveal exam-venue" style={styles.venueCard}>
         <div style={styles.venuePin}><IconPin /></div>
         <div style={styles.venueText}>
           <div style={styles.venueLabel}>EXAM VENUE</div>
@@ -88,6 +88,7 @@ export default function CampDetails() {
           href="https://maps.google.com/?q=V.V+Mahal+Road+Tirupati"
           target="_blank"
           rel="noreferrer"
+          className="exam-venue-btn"
           style={styles.venueBtn}
         >
           Get Directions →

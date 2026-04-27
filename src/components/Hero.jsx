@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const EXAM_DATE = new Date('2026-05-25T10:00:00+05:30');
+const EXAM_DATE = new Date('2026-05-09T10:00:00+05:30');
 
 const TRUST_ITEMS = [
   { icon: '🛡️',  title: 'Safe & Secure',     sub: 'Environment' },
@@ -9,7 +9,7 @@ const TRUST_ITEMS = [
 ];
 
 const FEATURE_CARDS = [
-  { icon: '🎓', label: 'Classes',          value: 'L.K.G to Class 5' },
+  { icon: '🎓', label: 'Classes',          value: 'L.K.G to Class 7' },
   { icon: '💰', label: 'Registration Fee', value: '₹100 Only' },
   { icon: '🏆', label: 'Win Up to',        value: '50% Scholarship' },
 ];
@@ -59,7 +59,7 @@ export default function Hero() {
           </div>
 
           <p className="hero-sub" style={styles.sub}>
-            For L.K.G to Class 5<br />
+            For L.K.G to Class 7<br />
             <span style={styles.subMuted}>Conducted offline at Cambridge Montessori Global School</span>
           </p>
 

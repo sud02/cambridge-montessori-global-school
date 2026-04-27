@@ -50,7 +50,7 @@ export default function SplashScreen() {
 
         <div style={styles.subtitle}>Scholarship Exam 2026</div>
 
-        <div style={styles.pill}>L.K.G TO CLASS 5</div>
+        <div style={styles.pill}>L.K.G TO CLASS 7</div>
       </div>
 
       <div style={styles.bottom}>
